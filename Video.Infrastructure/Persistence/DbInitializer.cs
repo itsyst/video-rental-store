@@ -62,12 +62,14 @@ public class DbInitializer : IDbInitializer
                         new Customer(){
                             Id = Guid.Parse("{3b21b690-4627-4e29-9c98-1d338e41d6f0}"),
                             FirstName = "Rhea",
-                            LastName = "McLaughlin"
+                            LastName = "McLaughlin",
+                            IsSubscribed = true
                         },
                         new Customer(){
                             Id = Guid.Parse("{9c434504-4a9f-4d22-978b-2b7e1216d206}"),
                             FirstName = "Eric",
-                            LastName = "Ullrich"
+                            LastName = "Ullrich",
+                            IsSubscribed = false
                         },
                      });
             _context.SaveChanges();

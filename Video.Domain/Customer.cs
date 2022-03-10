@@ -15,5 +15,8 @@ public class Customer
     [Display(Name = "Last Name")]
     public string LastName { get; set; } = string.Empty;
 
+    [Display(Name = "Is Subscribed")]
     public bool IsSubscribed { get; set; }
+    public MembershipType? MembershipType { get; set; }
+    public byte MembershipTypeId { get; set; }
 }

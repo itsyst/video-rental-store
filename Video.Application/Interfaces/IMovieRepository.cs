@@ -2,6 +2,6 @@
 
 namespace Video.Application.Interfaces;
 
-public interface IMovieRepository: IAsyncGenericRepository<Movie>
+public interface IMovieRepository : IAsyncGenericRepository<Movie>
 {
 }

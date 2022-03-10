@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 //Services configuration
 builder.Services.AddPersistanceServices(builder.Configuration);
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

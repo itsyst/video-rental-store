@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Video.Application.Interfaces;
+using Video.Domain;
 using Video.Infrastructure.Persistence;
 using Video.Infrastructure.Services;
 
@@ -11,15 +12,16 @@ public static class PersistanceContainer
 {
     public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(
+        services.AddDbContextFactory<ApplicationDbContext>(
             options => options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection"),
                 b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
         );
 
-        services.AddScoped(typeof(IMovieRepository), typeof(MovieService));
+        services.AddScoped<IMovieRepository, MovieService>();
+        services.AddScoped<ICustomerRepository, CustomerService>();
 
-        services.AddScoped(typeof(IDbInitializer), typeof(DbInitializer));
+        services.AddScoped<IDbInitializer, DbInitializer>();
 
         return services;
     }

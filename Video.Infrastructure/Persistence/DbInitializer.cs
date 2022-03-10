@@ -26,14 +26,16 @@ public class DbInitializer : IDbInitializer
         try
         {
             if (_context.Database.GetPendingMigrations().Any())
+            {
                 _context.Database.Migrate();
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while seeding the database.");
         }
 
-        // Create covers
+        // Create Movies
         if (!_context.Movies.Any())
         {
             _context.Movies.AddRange(new List<Movie>()
@@ -47,6 +49,25 @@ public class DbInitializer : IDbInitializer
                             Id = Guid.Parse("{af4c2e9b-7427-4476-b5be-0f574b4d1a0c}"),
                             Name = "Restless",
                             ImageUrl = "\\uploads\\posters\\14184894844178489719.jpg"
+                        },
+                     });
+            _context.SaveChanges();
+        }
+
+        // Create Customers
+        if (!_context.Customers.Any())
+        {
+            _context.Customers.AddRange(new List<Customer>()
+                    {
+                        new Customer(){
+                            Id = Guid.Parse("{3b21b690-4627-4e29-9c98-1d338e41d6f0}"),
+                            FirstName = "Rhea",
+                            LastName = "McLaughlin"
+                        },
+                        new Customer(){
+                            Id = Guid.Parse("{9c434504-4a9f-4d22-978b-2b7e1216d206}"),
+                            FirstName = "Eric",
+                            LastName = "Ullrich"
                         },
                      });
             _context.SaveChanges();

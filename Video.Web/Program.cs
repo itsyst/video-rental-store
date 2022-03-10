@@ -1,7 +1,12 @@
+using Video.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Services configuration
+builder.Services.AddPersistanceServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -12,6 +17,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+//Invoke function to seed database
+PersistanceContainer.SeedDatabase(app.Services.CreateAsyncScope());
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

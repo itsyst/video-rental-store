@@ -14,4 +14,6 @@ public class Customer
     [Required]
     [Display(Name = "Last Name")]
     public string LastName { get; set; } = string.Empty;
+
+    public bool IsSubscribed { get; set; }
 }

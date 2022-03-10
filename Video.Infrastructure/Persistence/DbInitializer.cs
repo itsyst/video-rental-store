@@ -63,13 +63,58 @@ public class DbInitializer : IDbInitializer
                             Id = Guid.Parse("{3b21b690-4627-4e29-9c98-1d338e41d6f0}"),
                             FirstName = "Rhea",
                             LastName = "McLaughlin",
-                            IsSubscribed = true
+                            IsSubscribed = true,
+                            MembershipType = new()
+                            {
+                                Id = 1
+                            }
                         },
                         new Customer(){
                             Id = Guid.Parse("{9c434504-4a9f-4d22-978b-2b7e1216d206}"),
                             FirstName = "Eric",
                             LastName = "Ullrich",
-                            IsSubscribed = false
+                            IsSubscribed = false,
+                            MembershipType = new()
+                            {
+                                Id = 2
+                            }
+                        },
+                        new Customer(){
+                            Id = Guid.Parse("{896dd529-d60f-4fca-ac6e-df22807428d1}"),
+                            FirstName = "Joe",
+                            LastName = "Doe",
+                            IsSubscribed = true,
+                            MembershipType = new()
+                            {
+                                Id = 3
+                            }
+                        },
+                     });
+            _context.SaveChanges();
+        }
+
+        // Create Customers
+        if (!_context.MembershipTypes.Any())
+        {
+            _context.MembershipTypes.AddRange(new List<MembershipType>()
+                    {
+                        new MembershipType(){
+                            Id = 1,
+                            SignUpFee = 0,
+                            Duration = 0 ,
+                            DiscountRate = 0
+                        },
+                        new MembershipType(){
+                            Id = 2,
+                            SignUpFee = 25,
+                            Duration = 1,
+                            DiscountRate = 5                      
+                        },
+                        new MembershipType(){
+                            Id = 3,
+                            SignUpFee = 255,
+                            Duration = 12,
+                            DiscountRate = 15                      
                         },
                      });
             _context.SaveChanges();

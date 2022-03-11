@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Video.Application.Interfaces;
-using Video.Domain;
 using Video.Infrastructure.Persistence;
 using Video.Infrastructure.Services;
 
@@ -10,6 +9,7 @@ namespace Video.Infrastructure;
 
 public static class PersistanceContainer
 {
+    //Services configuration
     public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContextFactory<ApplicationDbContext>(

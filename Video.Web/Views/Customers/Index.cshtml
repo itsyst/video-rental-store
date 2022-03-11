@@ -10,22 +10,26 @@
             <h2 class="text-primary">Customers</h2>
         </div>
         <div class="col-6 text-end">
-            <a class="btn btn-primary" asp-controller="Customers" asp-action="Upsert">
+            <a class="btn btn-primary" asp-controller="Customers" asp-action="Create">
                 <i class="bi bi-plus-circle"></i> &nbsp; New
             </a>
         </div>
     </div>
     <br>
-    <table class="table table-striped table-hover stripe w-100">
+    <table class="table">
         <thead>
             <tr>
-                <th scope="col">
-                    @Html.DisplayName("Name")
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
                 </th>
-                 <th scope="col">
-                    @Html.DisplayName("Discount Rate")
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
                 </th>
-                <th scope="col"></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+
+                </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -33,12 +37,15 @@
             {
                 <tr class="align-middle">
                     <td>
-                        @Html.ActionLink(customer.FirstName +" "+ customer.LastName,"Upsert", "Customers" , new {customer.Id})
-                    </td> 
+                        @Html.DisplayFor(modelItem => customer.Id)
+                    </td>
                     <td>
-                        @Html.DisplayFor(modelItem =>customer.MembershipType!.DiscountRate)%
-                    </td> 
-                    <td class="text-end">
+                        @Html.DisplayFor(modelItem => customer.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => customer.LastName)
+                    </td>
+                    <td>
                         <a class="btn-link mx-2" asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.Id"> <i class="bi bi-trash-fill text-danger" style="font-size: 1.2rem;"></i></a>
                     </td>
                 </tr>

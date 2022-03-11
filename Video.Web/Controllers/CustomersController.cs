@@ -2,8 +2,6 @@
 using Video.Application.Interfaces;
 using Video.Domain;
 
-#nullable disable
-
 namespace Video.Web.Controllers;
 
 public class CustomersController : Controller
@@ -13,26 +11,9 @@ public class CustomersController : Controller
     {
         _customer = customer;
     }
-    public async Task<IActionResult> Index()
+    public async Task<ActionResult> Index()
     {
-        IEnumerable<Customer> customers = await _customer.GetAllCustomersAsync(includeProperties: c=>c.MembershipType);
+        IEnumerable<Customer> customers = await _customer.GetAllAsync();
         return View(customers);
     }
-
-    public async Task<IActionResult> Upsert(Guid id)
-    {
-        Customer customer = new();
-
-        if (id == Guid.Empty)
-        {
-            return View(customer);
-        }
-        else
-        {
-            // update customer
-            customer = await _customer.GetByIdAsync(id);
-            return View(customer);
-        }
-    }
-
 }

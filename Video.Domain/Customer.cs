@@ -20,4 +20,5 @@ public class Customer
     [Display(Name = "Is Subscribed")]
     public bool IsSubscribed { get; set; }
     public MembershipType? MembershipType { get; set; }
+    public byte MembershipTypeId { get; set; }
 }

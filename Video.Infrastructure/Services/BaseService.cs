@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Video.Application.Interfaces;
 using Video.Infrastructure.Persistence;
- 
+
+#nullable disable
+
 namespace Video.Infrastructure.Services;
 
 public class BaseService<T> : IAsyncGenericRepository<T> where T : class
@@ -18,5 +20,10 @@ public class BaseService<T> : IAsyncGenericRepository<T> where T : class
     public async Task<IEnumerable<T>> GetAllAsync()
     {
         return await _table.ToListAsync();
+    }
+
+    public async Task<T> GetByIdAsync(Guid id)
+    {
+        return await _table.FindAsync(id);
     }
 }

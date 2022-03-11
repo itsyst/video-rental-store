@@ -241,8 +241,8 @@ sup {
 }
 
 a {
-  color: #93c54b;
-  text-decoration: underline;
+    color: #325d88 !important;
+    text-decoration: none !important;
 }
 
 a:hover {

@@ -34,6 +34,62 @@ public class DbInitializer : IDbInitializer
         {
             _logger.LogError(ex, "An error occurred while seeding the database.");
         }
+        // Create Genres
+        if (!_context.Genres.Any())
+        {
+            _context.Genres.AddRange(new List<Genre>()
+                    {
+                        new Genre(){
+                            Id = Guid.Parse("{4b286382-bad5-4aaf-b106-fc71e7bface9}"),
+                            Name = "Classic"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{c68412d5-a37c-4f4e-90c1-13dac34dd6d9}"),
+                            Name = "Drama"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{f8a01819-efb4-4517-8c57-06c46b02981e}"),
+                            Name = "Thriller"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{0be221e7-1d7d-4fbd-b99f-5fe52cdd575a}"),
+                            Name = "Action"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{bb46feb4-08d6-436d-a43b-b2f5116da511}"),
+                            Name = "Comedy"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{af443f38-acbf-4f30-bdec-7311e9febcdc}"),
+                            Name = "Romance"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{699da09f-6fd9-4abf-b5ca-69d714c68963}"),
+                            Name = "Horror"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{4257d3b8-127c-4e0c-aa98-e0ae1aa64cd2}"),
+                            Name = "Documentary"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{dae6664c-9d8d-484e-ac02-ce426c061059}"),
+                            Name = "Detective"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{ba0c8873-5b1d-462b-adaa-9e9cb4825b47}"),
+                            Name = "Adventure"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{c7be5594-b0cc-464e-8b13-c176ffa2ef85}"),
+                            Name = "Science Fiction"
+                        },
+                        new Genre(){
+                            Id = Guid.Parse("{f0a7b2d7-6b2d-48f5-85a9-24c43a3ef950}"),
+                            Name = "Crime"
+                        },
+                     });
+            _context.SaveChanges();
+        }
 
         // Create Movies
         if (!_context.Movies.Any())
@@ -43,12 +99,47 @@ public class DbInitializer : IDbInitializer
                         new Movie(){
                             Id = Guid.Parse("{9b2457cc-a010-11ec-b909-0242ac120002}"),
                             Name = "The Last Mountain",
-                            ImageUrl = "\\uploads\\posters\\6274541645284724.jpg"
+                            ImageUrl = "\\uploads\\posters\\6274541645284724.jpg",
+                            CreatedDate = DateTime.Now,
+                            ReleaseDate = new DateTime(2021, 09,09),
+                            GenreId = Guid.Parse("{4257d3b8-127c-4e0c-aa98-e0ae1aa64cd2}"),
+                            InStoch = 9
                         },
                         new Movie(){
                             Id = Guid.Parse("{af4c2e9b-7427-4476-b5be-0f574b4d1a0c}"),
                             Name = "Restless",
-                            ImageUrl = "\\uploads\\posters\\14184894844178489719.jpg"
+                            ImageUrl = "\\uploads\\posters\\14184894844178489719.jpg",
+                            CreatedDate = DateTime.Now,
+                            ReleaseDate = new DateTime(2022,02,25),
+                            GenreId = Guid.Parse("{0be221e7-1d7d-4fbd-b99f-5fe52cdd575a}"),
+                            InStoch = 5
+                        },
+                        new Movie(){
+                            Id = Guid.Parse("{7a2d351c-7c88-4e07-b05a-bbf6c757c7d8}"),
+                            Name = "The Batman",
+                            ImageUrl = "\\uploads\\posters\\65196419850968199081298.jpg",
+                            CreatedDate = DateTime.Now,
+                            ReleaseDate = new DateTime(2022,02,22),
+                            GenreId =  Guid.Parse("{f0a7b2d7-6b2d-48f5-85a9-24c43a3ef950}"),
+                            InStoch = 8
+                        },
+                        new Movie(){
+                            Id = Guid.Parse("{08ff12e0-f0bf-4eef-b5e3-96db8452e0b8}"),
+                            Name = "The Commando",
+                            ImageUrl = "\\uploads\\posters\\1684918424984984984849.jpg",
+                            CreatedDate = DateTime.Now,
+                            ReleaseDate = new DateTime(2022,01,07),
+                            GenreId =   Guid.Parse("{f8a01819-efb4-4517-8c57-06c46b02981e}"),
+                            InStoch = 9
+                        },
+                        new Movie(){
+                            Id = Guid.Parse("{ffa41e64-1dfa-4411-80b9-6c2717335fb1}"),
+                            Name = "Scream",
+                            ImageUrl = "\\uploads\\posters\\8619814984984844.jpg",
+                            CreatedDate = DateTime.Now,
+                            ReleaseDate = new DateTime(2022,01,14),
+                            GenreId =  Guid.Parse("{699da09f-6fd9-4abf-b5ca-69d714c68963}"),
+                            InStoch = 3
                         },
                      });
             _context.SaveChanges();

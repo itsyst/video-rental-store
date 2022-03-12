@@ -35,6 +35,43 @@ public class DbInitializer : IDbInitializer
             _logger.LogError(ex, "An error occurred while seeding the database.");
         }
 
+        // Create Genres
+        if (!_context.Genres.Any())
+        {
+            _context.Genres.AddRange(new List<Genre>()
+            {
+                new Genre(){
+                    Id = Guid.Parse("{c68412d5-a37c-4f4e-90c1-13dac34dd6d9}"),
+                    Name = "Drama"
+                },
+                new Genre(){
+                    Id = Guid.Parse("{af443f38-acbf-4f30-bdec-7311e9febcdc}"),
+                    Name = "Romance"
+                },
+                new Genre(){
+                    Id = Guid.Parse("{ba0c8873-5b1d-462b-adaa-9e9cb4825b47}"),
+                    Name = "Adventure"
+                },
+                new Genre(){
+                    Id = Guid.Parse("{bb46feb4-08d6-436d-a43b-b2f5116da511}"),
+                    Name = "Comedy"
+                },
+                new Genre(){
+                    Id = Guid.Parse("{c7be5594-b0cc-464e-8b13-c176ffa2ef85}"),
+                    Name = "Science Fiction"
+                },
+                new Genre(){
+                    Id = Guid.Parse("{dae6664c-9d8d-484e-ac02-ce426c061059}"),
+                    Name = "Detective"
+                },
+                new Genre(){
+                    Id = Guid.Parse("{4b286382-bad5-4aaf-b106-fc71e7bface9}"),
+                    Name = "Classic"
+                },
+            });
+            _context.SaveChanges();
+        }
+
         // Create Movies
         if (!_context.Movies.Any())
         {
@@ -109,47 +146,7 @@ public class DbInitializer : IDbInitializer
                      });
             _context.SaveChanges();
         }
-        // Create Genres
-        if (!_context.Genres.Any())
-        {
-            _context.Genres.AddRange(new List<Genre>()
-            {
-                new Genre(){
-                    Id = Guid.Parse("{c68412d5-a37c-4f4e-90c1-13dac34dd6d9}"),
-                    Name = "Drama"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{af443f38-acbf-4f30-bdec-7311e9febcdc}"),
-                    Name = "Romance"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{ba0c8873-5b1d-462b-adaa-9e9cb4825b47}"),
-                    Name = "Adventure"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{bb46feb4-08d6-436d-a43b-b2f5116da511}"),
-                    Name = "Comedy"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{c7be5594-b0cc-464e-8b13-c176ffa2ef85}"),
-                    Name = "Science Fiction"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{dae6664c-9d8d-484e-ac02-ce426c061059}"),
-                    Name = "Detective"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{4257d3b8-127c-4e0c-aa98-e0ae1aa64cd2}"),
-                    Name = "Documentary"
-                },
-                new Genre(){
-                    Id = Guid.Parse("{4b286382-bad5-4aaf-b106-fc71e7bface9}"),
-                    Name = "Classic"
-                },
-            });
-            _context.SaveChanges();
-        }
-
+ 
         // Create MembershipTypes
         if (!_context.MembershipTypes.Any())
         {

@@ -1,51 +1,70 @@
-﻿@model Video.Domain.Customer;
+﻿@model Video.Web.ViewModels.CustomerViewModel;
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 #pragma warning disable
 }
 
 <div class="p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary ml-3">@(Model.Id != Guid.Empty? "Update" : "Create") Customer</h2>
-        </div>
-    </div>
-    <div class="col-md-9">
-        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group row">
-                <div class="form-group mb-3 col-5  ">
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3 col-5  ">
-                    <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="form-group mb-3 col-9  ">
-                    <label asp-for="IsSubscribed" class="control-label"></label>
-                    <input asp-for="IsSubscribed" class="form-control" />
-                    <span asp-validation-for="IsSubscribed" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group mt-3 row">
-                <div class="col-5">
-                    @if (Model.Id != Guid.Empty)
-                    {
-                        <input type="submit" value="Update" class="btn btn-primary" />
-                    }
-                    else
-                    {
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    }
-                    <button asp-action="Index" class="btn btn-outline-primary">Back to list</button>
-                </div>
-            </div>
-        </form>
-    </div>
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary ml-3">@(Model.Customer.Id != Guid.Empty? "Update" : "Create") Customer</h2>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<input asp-for="Customer.Id" hidden />
+			<div class="form-group row">
+				<div class="form-group mb-3 col-5  ">
+					<label asp-for="Customer.FirstName" class="control-label"></label>
+					<input asp-for="Customer.FirstName" class="form-control"/>
+					<span asp-validation-for="Customer.FirstName" class="text-danger"></span>
+				</div>
+				<div class="form-group mb-3 col-5  ">
+					<label asp-for="Customer.LastName" class="control-label"></label>
+					<input asp-for="Customer.LastName" class="form-control"/>
+					<span asp-validation-for="Customer.LastName" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="form-group mb-3 col-5  ">
+					<label asp-for="Customer.MembershipTypeId" class="control-label"></label>
+					<select asp-for="Customer.MembershipTypeId" asp-items="@Model.MembershipTypes" class="form-select">
+						<option disabled selected>-- Select MembershipType --</option>
+					</select>
+					<span asp-validation-for="Customer.MembershipTypeId" class="text-danger"></span>
+				</div>
+				@if (Model.Customer.Id != Guid.Empty)
+				{
+					<div class="form-group mb-3 col-5  ">
+						<label asp-for="Customer.Birthdate" class="control-label"></label>
+						<input value="@Model.Customer.Birthdate.Value.ToShortDateString()" class="form-control"/>
+						<span asp-validation-for="Customer.Birthdate" class="text-danger"></span>
+					</div>
+				}
+				else
+				{
+					<div class="form-group mb-3 col-5  ">
+						<label asp-for="Customer.Birthdate" class="control-label"></label>
+						<input asp-for="Customer.Birthdate" class="form-control"/>
+						<span asp-validation-for="Customer.Birthdate" class="text-danger"></span>
+					</div>
+				}
+			</div>
+			<div class="form-group mt-3 row">
+				<div class="col-5">
+					@if (Model.Customer.Id != Guid.Empty)
+					{
+						<input type="submit" value="Update" class="btn btn-primary" />
+					}
+					else
+					{
+						<input type="submit" value="Save" class="btn btn-primary" />
+					}
+					<button asp-action="Index" class="btn btn-outline-primary">Back to list</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>

@@ -9,15 +9,15 @@ public class ApplicationDbContext : DbContext
     private readonly IConfiguration _configuration;
 
     public ApplicationDbContext(
-        IConfiguration configuration, 
+        IConfiguration configuration,
         DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
         _configuration = configuration;
     }
 
-    public DbSet<Genre>? Genres { get; set; }
     public DbSet<Movie>? Movies { get; set; }
+    public DbSet<Genre>? Genres { get; set; }
     public DbSet<MembershipType>? MembershipTypes { get; set; }
     public DbSet<Customer>? Customers { get; set; }
 

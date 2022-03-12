@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Video.Application.Interfaces;
+using Video.Application.Utilities.Enums;
 using Video.Domain;
+using Video.Web.ViewModels;
 
 #nullable disable
 
@@ -20,17 +23,32 @@ public class CustomersController : Controller
     }
     public async Task<IActionResult> Upsert(Guid id)
     {
-        Customer customer = new();
+        IEnumerable<MembershipTypes> membershipTypes = Enumeration.GetAll<MembershipTypes>();
+
+        CustomerViewModel model = new()
+        {
+            Customer = new(),
+            MembershipTypes = membershipTypes.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i .Value.ToString()
+            })
+        };
 
         if (id == Guid.Empty)
         {
-            return View(customer);
+            return View(model);
         }
         else
         {
             // update customer
-            customer = await _customer.GetByIdAsync(id);
-            return View(customer);
+            model.Customer = await _customer.GetByIdAsync(id);
+            foreach (var type in membershipTypes)
+            {
+                if (type.Value.Equals(model.Customer.MembershipTypeId))
+                    model.Customer.MembershipTypeId = (byte)type.Value;
+            }
+            return View(model);
         }
     }
 

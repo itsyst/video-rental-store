@@ -91,21 +91,24 @@ public class DbInitializer : IDbInitializer
                             FirstName = "Rhea",
                             LastName = "McLaughlin",
                             IsSubscribed = true,
-                            MembershipTypeId = 1
+                            MembershipTypeId = 1,
+                            Birthdate = new DateTime(1980,02,28)
                         },
                         new Customer(){
                             Id = Guid.Parse("{9c434504-4a9f-4d22-978b-2b7e1216d206}"),
                             FirstName = "Eric",
                             LastName = "Ullrich",
                             IsSubscribed = false,
-                            MembershipTypeId = 2
+                            MembershipTypeId = 2,
+                            Birthdate = new DateTime(1978,08,06)
                         },
                         new Customer(){
                             Id = Guid.Parse("{896dd529-d60f-4fca-ac6e-df22807428d1}"),
                             FirstName = "Joe",
                             LastName = "Doe",
                             IsSubscribed = true,
-                            MembershipTypeId = 3
+                            MembershipTypeId = 3,
+                            Birthdate = new DateTime(1969,05,14)
                         },
                      });
             _context.SaveChanges();

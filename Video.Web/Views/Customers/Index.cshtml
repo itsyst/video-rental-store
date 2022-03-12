@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Video.Domain.Customer>
+﻿@using Video.Application.Utilities.Enums
+@using Video.Domain
+@model IEnumerable<Video.Domain.Customer>
 
 @{
     ViewData["Title"] = "Customers";
@@ -23,7 +25,10 @@
                     @Html.DisplayName("Name")
                 </th>
                 <th scope="col">
-                   @Html.DisplayName("Discount Rate")
+                    @Html.DisplayName("MembershipType")
+                </th>                
+                <th scope="col">
+                    @Html.DisplayName("Discount Rate")
                 </th>
                 <th scope="col"></th>
             </tr>
@@ -33,10 +38,20 @@
             {
                 <tr class="align-middle">
                     <td>
-                         @Html.ActionLink(customer.FirstName +" "+ customer.LastName,"Upsert", "Customers" , new {customer.Id})
+                        @Html.ActionLink(customer.FirstName +" "+ customer.LastName,"Upsert", "Customers" , new {customer.Id})
                     </td>
+                    @foreach (var memberType in MembershipTypes.GetAll<MembershipTypes>())
+                    {
+                        @if (memberType.Value.Equals(customer.MembershipTypeId))
+                        {
+                            <td>
+                                @Html.DisplayName(memberType.Name)
+                            </td>
+                            <input asp-for ="@memberType.Name" class="form-control" hidden/>
+                        }
+                    }
                     <td>
-                         @Html.DisplayFor(modelItem =>customer.MembershipType!.DiscountRate)%
+                        @Html.DisplayFor(modelItem =>customer.MembershipType!.DiscountRate)%
                     </td>
                     <td class="text-end">
                         <a class="btn-link mx-2" asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.Id"> <i class="bi bi-trash-fill text-danger" style="font-size: 1.2rem;"></i></a>

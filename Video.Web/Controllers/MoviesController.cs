@@ -14,7 +14,7 @@ public class MoviesController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        IEnumerable<Movie> movies = await _movie.GetAllAsync();
+        IEnumerable<Movie> movies = await _movie.GetAllMoviesAsync(includeProperties: m => m.Genre);
         return View(movies);
     }
 }

@@ -51,7 +51,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasIndex("MembershipTypeId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Video.Domain.Genre", b =>
@@ -67,7 +67,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
                 });
 
             modelBuilder.Entity("Video.Domain.MembershipType", b =>
@@ -86,7 +86,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MembershipTypes");
+                    b.ToTable("MembershipTypes", (string)null);
                 });
 
             modelBuilder.Entity("Video.Domain.Movie", b =>
@@ -118,7 +118,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("Video.Domain.Customer", b =>

@@ -17,8 +17,14 @@ public class Customer
     [StringLength(50)]
     public string LastName { get; set; } = string.Empty;
 
+    [Display(Name = "Date of Birth")]
+    public DateTime? Birthdate { get; set; }
+
     [Display(Name = "Is Subscribed")]
     public bool IsSubscribed { get; set; }
+
     public MembershipType? MembershipType { get; set; }
+
+    [Display(Name = "Membership Type")]
     public byte MembershipTypeId { get; set; }
 }

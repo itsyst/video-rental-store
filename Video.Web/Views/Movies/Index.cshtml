@@ -20,10 +20,10 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Id)
+                    @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Genre)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ImageUrl)
@@ -36,17 +36,16 @@
             {
                 <tr class="align-middle">
                     <td>
-                        @Html.DisplayFor(modelItem => movie.Id)
+                        @Html.ActionLink(movie.Name,"Upsert", "Movies" , new {movie.Id})
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => movie.Name)
+                        @Html.DisplayFor(modelItem => movie.Genre.Name)
                     </td>
                     <td>
                         <img src="@movie.ImageUrl" class="img-thumbnail" style="width:64px; height:84px;" />
                     </td>
-                    <td>
-                        <a class="btn-link mx-2" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id"
-                        > <i class="bi bi-trash-fill text-danger" style="font-size: 1.2rem;"></i></a>
+                    <td class="text-end">
+                        <a class="btn-link mx-2" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id"> <i class="bi bi-trash-fill text-danger" style="font-size: 1.2rem;"></i></a>
                     </td>
                 </tr>
             }

@@ -10,6 +10,7 @@
     @await Html.PartialAsync("_NavBar")
     <div class="container">
         <main role="main" class="pb-3">
+            @await Html.PartialAsync("_Notification")
             @RenderBody()
         </main>
     </div>

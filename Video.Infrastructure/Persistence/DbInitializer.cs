@@ -89,7 +89,7 @@ public class DbInitializer : IDbInitializer
                                 Name = "Documentary"
                             },
                             GenreId = Guid.Parse("{4257d3b8-127c-4e0c-aa98-e0ae1aa64cd2}"),
-                            InStoch = 9
+                            InStock = 9
                         },
                         new Movie(){
                             Id = Guid.NewGuid(),
@@ -102,7 +102,7 @@ public class DbInitializer : IDbInitializer
                                 Name = "Action"
                             },
                             GenreId = Guid.Parse("{0be221e7-1d7d-4fbd-b99f-5fe52cdd575a}"),
-                            InStoch = 5
+                            InStock = 5
                         },
                         new Movie(){
                             Id = Guid.NewGuid(),
@@ -115,7 +115,7 @@ public class DbInitializer : IDbInitializer
                                 Name = "Crime"
                             },
                             GenreId =  Guid.Parse("{f0a7b2d7-6b2d-48f5-85a9-24c43a3ef950}"),
-                            InStoch = 8
+                            InStock = 8
                         },
                         new Movie(){
                             Id =Guid.NewGuid(),
@@ -127,8 +127,8 @@ public class DbInitializer : IDbInitializer
                                 Id = new Guid("f8a01819-efb4-4517-8c57-06c46b02981e"),
                                 Name = "Thriller"
                             },
-                           GenreId =   Guid.Parse("{f8a01819-efb4-4517-8c57-06c46b02981e}"),
-                            InStoch = 9
+                            GenreId =   Guid.Parse("{f8a01819-efb4-4517-8c57-06c46b02981e}"),
+                            InStock = 9
                         },
                         new Movie(){
                             Id = Guid.NewGuid(),
@@ -141,7 +141,7 @@ public class DbInitializer : IDbInitializer
                                 Name = "Horror"
                             },
                             GenreId =  Guid.Parse("{699da09f-6fd9-4abf-b5ca-69d714c68963}"),
-                            InStoch = 3
+                            InStock = 3
                         },
                      });
             _context.SaveChanges();

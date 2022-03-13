@@ -22,7 +22,8 @@ public class Movie
 
     [Required]
     [Range(1, 10)]
-    public int InStoch { get; set; }
+    [Display(Name = "In Stock")]
+    public int InStock { get; set; }
 
     public Genre Genre { get; set; } = new();
 

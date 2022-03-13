@@ -28,6 +28,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.ImageUrl)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InStock)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -43,6 +46,9 @@
                     </td>
                     <td>
                         <img src="@movie.ImageUrl" class="img-thumbnail" style="width:64px; height:84px;" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => movie.InStock)
                     </td>
                     <td class="text-end">
                         <a class="btn-link mx-2" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id"> <i class="bi bi-trash-fill text-danger" style="font-size: 1.2rem;"></i></a>

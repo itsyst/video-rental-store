@@ -21,6 +21,8 @@ public class CustomersController : Controller
         IEnumerable<Customer> customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType);
         return View(customers);
     }
+
+    // GET: Customers/Upsert/b86104b6-7205-4d5a-ab83-0eb534c0ae60
     public async Task<IActionResult> Upsert(Guid id)
     {
         IEnumerable<MembershipTypes> membershipTypes = Enumeration.GetAll<MembershipTypes>();
@@ -31,7 +33,7 @@ public class CustomersController : Controller
             MembershipTypes = membershipTypes.Select(i => new SelectListItem
             {
                 Text = i.Name,
-                Value = i .Value.ToString()
+                Value = i.Value.ToString()
             })
         };
 
@@ -52,4 +54,26 @@ public class CustomersController : Controller
         }
     }
 
+    // GET: Customers/Upsert/b86104b6-7205-4d5a-ab83-0eb534c0ae60
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Upsert(CustomerViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            if (model.Customer.Id.Equals(Guid.Empty))
+            {
+                await _customer.AddAsync(model.Customer);
+                TempData["Success"] = "Customer created successfully.";
+            }
+            else
+            {
+                await _customer.UpdateAsync(model.Customer);
+                TempData["Success"] = "Customer updated successfully.";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        return View(model);
+    }
 }

@@ -26,4 +26,21 @@ public class BaseService<T> : IAsyncGenericRepository<T> where T : class
     {
         return await _table.FindAsync(id);
     }
+
+    public async Task<T> AddAsync(T entity)
+    {
+        await _table.AddAsync(entity);
+        await _context.SaveChangesAsync();
+
+        return entity;
+    }
+
+    public async Task<T> UpdateAsync(T entity)
+    {
+        _table.Attach(entity);
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return entity;
+    }
 }

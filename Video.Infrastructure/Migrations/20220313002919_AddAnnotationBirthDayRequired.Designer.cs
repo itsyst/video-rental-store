@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Video.Infrastructure.Persistence;
 
@@ -11,9 +12,10 @@ using Video.Infrastructure.Persistence;
 namespace Video.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220313002919_AddAnnotationBirthDayRequired")]
+    partial class AddAnnotationBirthDayRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasIndex("MembershipTypeId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Video.Domain.Genre", b =>
@@ -68,7 +70,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Video.Domain.MembershipType", b =>
@@ -87,7 +89,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MembershipTypes", (string)null);
+                    b.ToTable("MembershipTypes");
                 });
 
             modelBuilder.Entity("Video.Domain.Movie", b =>
@@ -119,7 +121,7 @@ namespace Video.Infrastructure.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("Video.Domain.Customer", b =>

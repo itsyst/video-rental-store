@@ -17,6 +17,7 @@ public class Customer
     [StringLength(50)]
     public string LastName { get; set; } = string.Empty;
 
+    [Required]
     [Display(Name = "Date of Birth")]
     public DateTime? Birthdate { get; set; }
 

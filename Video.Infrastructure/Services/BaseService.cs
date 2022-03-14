@@ -8,7 +8,6 @@ namespace Video.Infrastructure.Services;
 
 public class BaseService<T> : IAsyncGenericRepository<T> where T : class
 {
-#pragma warning disable IDE0052 
     private readonly ApplicationDbContext _context;
     internal readonly DbSet<T> _table;
 
@@ -22,7 +21,7 @@ public class BaseService<T> : IAsyncGenericRepository<T> where T : class
         return await _table.ToListAsync();
     }
 
-    public async Task<T> GetByIdAsync(Guid id)
+    public async Task<T> GetByIdAsync(int id)
     {
         return await _table.FindAsync(id);
     }
@@ -37,7 +36,7 @@ public class BaseService<T> : IAsyncGenericRepository<T> where T : class
 
     public async Task<T> UpdateAsync(T entity)
     {
-        _table.Attach(entity);
+         _table.Attach(entity);
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
 

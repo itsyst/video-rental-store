@@ -44,7 +44,7 @@ public class CustomersController : Controller
         else
         {
             // update customer
-            model.Customer = await _customer.GetByIdAsync(id);
+            model.Customer = await _customer.GetCustomerByIdAsync(id);
             foreach (var type in membershipTypes)
             {
                 if (type.Value.Equals(model.Customer.MembershipTypeId))

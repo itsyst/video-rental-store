@@ -30,4 +30,11 @@ public class CustomerService : BaseService<Customer>, ICustomerRepository
 
         return await query.ToListAsync();
     }
+
+    public async Task<Customer> GetCustomerByIdAsync(Guid id)
+    {
+        return await _table.FindAsync(id);
+    }
+
+
 }

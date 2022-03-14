@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Video.Domain;
 
 public class Movie
 {
     [Key]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
 
+    [Required]
     [Display(Name = "Poster")]
     public string? ImageUrl { get; set; }
 
@@ -25,10 +25,9 @@ public class Movie
     [Display(Name = "In Stock")]
     public int InStock { get; set; }
 
-    public Genre Genre { get; set; } = new();
-
     [Required]
     [Display(Name = "Genre")]
-    [ForeignKey("GenreId")]
-    public Guid GenreId { get; set; }
+    public ushort GenreId { get; set; }
+    public Genre? Genre { get; set; }
+
 }

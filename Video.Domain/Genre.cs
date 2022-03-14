@@ -5,7 +5,7 @@ namespace Video.Domain
     public class Genre
     {
         [Key]
-        public Guid Id { get; set; }
+        public ushort Id { get; set; }
 
         [Required]
         [StringLength(255)]

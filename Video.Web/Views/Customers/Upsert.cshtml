@@ -37,15 +37,15 @@
                 </div>
                 @if (Model.Customer.Id.Equals(Guid.Empty))
                 {
-                    <div class="form-group mb-3 col-5  ">
+                    <div class="form-group mb-3 col-5">
                         <label asp-for="Customer.Birthdate" class="control-label"></label>
-                         <input asp-for="Customer.Birthdate" type="date" class="form-control" /> 
-                         <span asp-validation-for="Customer.Birthdate" class="text-danger"></span>
+                        <input asp-for="Customer.Birthdate" type="date" class="form-control" />
+                        <span asp-validation-for="Customer.Birthdate" class="text-danger"></span>
                     </div>
                 }
                 else
                 {
-                    <div class="form-group mb-3 col-5  ">
+                    <div class="form-group mb-3 col-5">
                         <label asp-for="Customer.Birthdate" class="control-label"></label>
                         @Html.TextBoxFor(c=>c.Customer.Birthdate, "{0:d MMM yyyy}", new{@class="form-control"})
                         <span asp-validation-for="Customer.Birthdate" class="text-danger"></span>

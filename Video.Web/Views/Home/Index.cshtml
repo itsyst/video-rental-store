@@ -11,7 +11,7 @@
             <div class="row p-2">
                 <div class="col-12 p-1">
                     <div class="card shadow mb-5 bg-body rounded">
-                        <a asp-controller="Movies" asp-action="edit" class="btn-link" asp-route-id="@movie.Id">
+                        <a asp-controller="Movies" asp-action="Upsert" class="btn-link" asp-route-id="@movie.Id">
                             <img src="@movie.ImageUrl" class="d-block w-100 card-img-top rounded" alt="movie-@movie.Name"/>
                         </a>
                         <div class="card-body" style="height: 100px;">

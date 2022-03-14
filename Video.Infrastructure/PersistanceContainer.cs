@@ -20,6 +20,7 @@ public static class PersistanceContainer
 
         services.AddScoped<IMovieRepository, MovieService>();
         services.AddScoped<ICustomerRepository, CustomerService>();
+        services.AddScoped<IGenreRepository, GenreService>();
 
         services.AddScoped<IDbInitializer, DbInitializer>();
 

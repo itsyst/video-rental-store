@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-6 mr-2">
         <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="None" class="text-danger mb-2">Please fix the following errors.</div>
             <input asp-for="Movie.Id" hidden />
             <input asp-for="Movie.ImageUrl" hidden />
             <div class="form-group mb-3 col-12 col-sm-8">
@@ -19,11 +19,11 @@
                 <input asp-for="Movie.Name" type="text" class="form-control" />
                 <span asp-validation-for="Movie.Name" class="text-danger"></span>
             </div>
-            @if (Model.Movie.Id.Equals(Guid.Empty))
+            @if (Model.Movie.Id != 0)
             {
                 <div class="mb-3 col-12 col-sm-8">
                     <label asp-for="Movie.ReleaseDate" class="control-label"></label>
-                    <input asp-for="Movie.ReleaseDate" type="date" class="form-control" />
+                    @Html.TextBoxFor(c=>c.Movie.ReleaseDate, "{0:d MMM yyyy}", new{@class="form-control"})
                     <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
                 </div>
             }
@@ -31,10 +31,9 @@
             {
                 <div class="mb-3 col-12 col-sm-8">
                     <label asp-for="Movie.ReleaseDate" class="control-label"></label>
-                    @Html.TextBoxFor(c=>c.Movie.ReleaseDate, "{0:d MMM yyyy}", new{@class="form-control"})
+                    <input asp-for="Movie.ReleaseDate" type="date" class="form-control" />
                     <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
                 </div>
-
             }
             <div class="mb-3 col-12 col-sm-8">
                 <label asp-for="Movie.GenreId" class="control-label"></label>

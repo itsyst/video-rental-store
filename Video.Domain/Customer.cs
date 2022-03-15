@@ -7,12 +7,12 @@ public class Customer
     [Key]
     public Guid Id { get; set; }
 
-    [Required]
+    [Required(ErrorMessage ="Please enter customer's first name.")]
     [Display(Name="First Name")]
     [StringLength(50)]
     public string FirstName { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "Please enter customer's last name.")]
     [Display(Name = "Last Name")]
     [StringLength(50)]
     public string LastName { get; set; } = string.Empty;

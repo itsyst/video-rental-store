@@ -19,13 +19,18 @@ body {
     background-color: #FCFCFD;
 }
 
+/* Error styles
+-------------------------------------------------- */
+.validation-summary-errors {
+    color: #d9534f;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
-
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 20px; /*Vertically center the text there */
- }
+}

@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-9">
         <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-            <div asp-validation-summary="None" class="text-danger mb-2">Please fix the following errors.</div>
+            <div asp-validation-summary="All"></div>
             <input asp-for="Customer.Id" hidden />
             <div class="form-group row">
                 <div class="form-group mb-3 col-5  ">
@@ -63,10 +63,12 @@
                 <div class="col-5">
                     @if (Model.Customer.Id != Guid.Empty)
                     {
+                        @Html.AntiForgeryToken()
                         <input type="submit" value="Update" class="btn btn-primary" />
                     }
                     else
                     {
+                        @Html.AntiForgeryToken()
                         <input type="submit" value="Save" class="btn btn-primary" />
                     }
                     <button asp-action="Index" class="btn btn-outline-primary">Back to list</button>
@@ -78,6 +80,6 @@
 
 @section Scripts {
 	@{
-	<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 	}
 }

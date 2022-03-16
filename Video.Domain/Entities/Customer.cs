@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Video.Domain.ValueObject;
 
-namespace Video.Domain;
+namespace Video.Domain.Entities;
 
 public class Customer
 {
@@ -19,6 +20,7 @@ public class Customer
 
     [Required]
     [Display(Name = "Date of Birth")]
+    [MinAge]
     public DateTime? Birthdate { get; set; }
 
     [Display(Name = "Is Subscribed")]

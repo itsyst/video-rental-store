@@ -1,4 +1,4 @@
-﻿namespace Video.Application.Utilities.Enums;
+﻿namespace Video.Domain.Enums;
 
 public class MembershipTypes : Enumeration
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Video.Domain;
+namespace Video.Domain.Entities;
 
 public class Movie
 {

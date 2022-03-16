@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Video.Application.Utilities.Enums;
+namespace Video.Domain.Enums;
 
 #nullable disable
 public class Enumeration : IComparable

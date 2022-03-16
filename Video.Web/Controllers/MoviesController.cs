@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Video.Application.Interfaces;
-using Video.Domain;
+using Video.Domain.Entities;
 using Video.Web.ViewModels;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Video.Application.Interfaces;
-using Video.Domain;
+using Video.Domain.Entities;
 using Video.Infrastructure.Persistence;
 
 #nullable disable
@@ -36,5 +36,12 @@ public class CustomerService : BaseService<Customer>, ICustomerRepository
         return await _table.FindAsync(id);
     }
 
+    public async Task<Customer> RemoveCustomerByIdAsync(Guid id)
+    {
+        Customer existing = await GetCustomerByIdAsync(id);
+        if (existing != null) 
+            _table.Remove(existing);
 
+        return await Task.FromResult(existing);
+    }
 }

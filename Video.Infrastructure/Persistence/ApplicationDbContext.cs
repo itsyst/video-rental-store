@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Video.Domain;
+using Video.Domain.Entities;
 
 namespace Video.Infrastructure.Persistence;
 

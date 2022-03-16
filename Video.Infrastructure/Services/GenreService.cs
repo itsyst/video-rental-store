@@ -1,5 +1,5 @@
 ﻿using Video.Application.Interfaces;
-using Video.Domain;
+using Video.Domain.Entities;
 using Video.Infrastructure.Persistence;
 
 #nullable disable

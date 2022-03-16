@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Video.Domain;
+using Video.Domain.Entities;
 
 namespace Video.Application.Interfaces;
 

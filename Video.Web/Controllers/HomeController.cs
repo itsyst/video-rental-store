@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Video.Application.Interfaces;
-using Video.Domain;
+using Video.Domain.Entities;
 using Video.Web.ViewModels;
 
 namespace Video.Web.Controllers;
 
 public class HomeController : Controller
 {
-#pragma warning disable IDE0052 
     private readonly ILogger<HomeController> _logger;
     private readonly IMovieRepository _movie;
 

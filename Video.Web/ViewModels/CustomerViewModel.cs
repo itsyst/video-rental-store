@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Video.Domain;
+using Video.Domain.Entities;
 
 namespace Video.Web.ViewModels;
 

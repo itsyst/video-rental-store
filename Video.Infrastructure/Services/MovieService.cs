@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Video.Application.Interfaces;
-using Video.Domain;
+using Video.Domain.Entities;
 using Video.Infrastructure.Persistence;
 
 namespace Video.Infrastructure.Services;

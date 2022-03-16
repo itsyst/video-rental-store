@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Video.Domain;
+using Video.Domain.Entities;
 
 namespace Video.Web.ViewModels;
 

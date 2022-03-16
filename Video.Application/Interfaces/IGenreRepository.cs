@@ -1,4 +1,4 @@
-﻿using Video.Domain;
+﻿using Video.Domain.Entities;
 
 namespace Video.Application.Interfaces;
 

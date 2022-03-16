@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Video.Application.Interfaces;
-using Video.Domain;
+using Video.Domain.Entities;
 
 #nullable disable
 

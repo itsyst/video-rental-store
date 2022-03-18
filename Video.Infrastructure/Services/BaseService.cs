@@ -36,8 +36,18 @@ public class BaseService<T> : IAsyncGenericRepository<T> where T : class
 
     public async Task<T> UpdateAsync(T entity)
     {
-         _table.Attach(entity);
+        _table.Attach(entity);
         _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return entity;
+    }    
+    
+    public async Task<T> DeleteAsync(int id)
+    {
+
+        var entity = _table.Find(id);
+        _table.Remove(entity);
         await _context.SaveChangesAsync();
 
         return entity;

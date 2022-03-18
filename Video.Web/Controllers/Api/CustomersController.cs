@@ -1,83 +1,87 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Video.Application.Interfaces;
+using Video.Application.Profiles.Dtos;
 using Video.Domain.Entities;
 
-namespace Video.Web.Controllers.Api
+namespace Video.Web.Controllers.Api;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CustomersController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CustomersController : ControllerBase
+    private readonly ICustomerRepository _customer;
+    private IMapper _mapper;
+    public CustomersController(
+        ICustomerRepository customer,
+        IMapper mapper)
     {
-        private readonly ICustomerRepository _customer;
-        public CustomersController(ICustomerRepository customer)
-        {
-            _customer = customer;
-        }
+        _customer = customer;
+        _mapper = mapper;
+    }
 
-        // GET: api/customers
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType);
-            return Ok(customers);
-        }
+    // GET: api/customers
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType);
+        
+        return Ok(customers.Select(_mapper.Map<Customer, CustomerDto>));
+    }
 
-        // GET api/customers/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            var customer = await _customer.GetCustomerByIdAsync(id);
-            if (customer == null)
-                return NotFound();
+    // GET api/customers/5
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var customerInDb = await _customer.GetCustomerByIdAsync(id);
+        if (customerInDb == null)
+            return NotFound();
 
-            return Ok(customer);
-        }
+        return Ok(_mapper.Map<Customer, CustomerDto>(customerInDb));
+    }
 
-        // POST api/customers
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Customer customer)
-        {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
+    // POST api/customers
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] CustomerDto customerDto)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-            await _customer.AddAsync(customer);
-            return CreatedAtAction(nameof(Get), new { id = customer.Id }, customer);
-        }
+        var _mappedCustomer = _mapper.Map<CustomerDto, Customer>(customerDto);
+        customerDto.Id = _mappedCustomer.Id;
+        await _customer.AddAsync(_mappedCustomer);
 
-        // PUT api/customers/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] Customer customer)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        return CreatedAtAction(nameof(Get), new { id = _mappedCustomer.Id }, _mappedCustomer);
+    }
 
-            var cutomerInDb = await _customer.GetCustomerByIdAsync(id);
-            if (cutomerInDb == null)
-                return NotFound();
+    // PUT api/customers/5
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(Guid id, [FromBody] CustomerDto customerDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-            cutomerInDb.FirstName = customer.FirstName;
-            cutomerInDb.LastName = customer.LastName;
-            cutomerInDb.Birthdate = customer.Birthdate;
-            cutomerInDb.IsSubscribed = customer.IsSubscribed;
-            cutomerInDb.MembershipTypeId = customer.MembershipTypeId;
+        var cutomerInDb = await _customer.GetCustomerByIdAsync(id);
+        if (cutomerInDb == null)
+            return NotFound();
 
-            await _customer.UpdateAsync(cutomerInDb);
+        var _mappedCustomer = _mapper.Map(customerDto, cutomerInDb);
+        await _customer.UpdateAsync(_mappedCustomer);
 
-            return Ok(cutomerInDb);
-        }
+        return Ok(_mappedCustomer);
+    }
 
-        // DELETE api/customers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            Customer customerIdb = await _customer.GetCustomerByIdAsync(id);
+    // DELETE api/customers/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        Customer cutomerInDb = await _customer.GetCustomerByIdAsync(id);
 
-            if (customerIdb == null)
-                return NotFound();
+        if (cutomerInDb == null)
+            return NotFound();
 
-            await _customer.DeleteCustomerByIdAsync(customerIdb.Id); 
+        await _customer.DeleteCustomerByIdAsync(cutomerInDb.Id); 
 
-            return NoContent();
-        }
+        return NoContent();
     }
 }

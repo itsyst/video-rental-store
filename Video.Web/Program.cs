@@ -1,3 +1,4 @@
+using Video.Application;
 using Video.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ builder.Services.AddControllersWithViews();
 
 //Services configuration
 builder.Services.AddPersistanceServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 
 var app = builder.Build();

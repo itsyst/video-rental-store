@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Video.Application.Interfaces;
-using Video.Application.Utilities.Enums;
-using Video.Domain;
+using Video.Domain.Entities;
+using Video.Domain.Enums;
 using Video.Web.ViewModels;
 
 #nullable disable
@@ -61,6 +61,22 @@ public class CustomersController : Controller
     {
         if (ModelState.IsValid)
         {
+            //check whether name is already exists in the database or not
+            var customers = await _customer.GetAllAsync();
+
+            foreach (var customer in customers)
+            {
+                if (customer.FirstName == model.Customer.FirstName
+                    && customer.LastName == model.Customer.LastName
+                    && customer.Birthdate == model.Customer.Birthdate)
+                {
+                    //adding error message to ModelState
+                    ModelState.AddModelError("FirstName", "Customer Already Exists.");
+
+                    return View(model);
+                }
+            }
+
             if (model.Customer.Id.Equals(Guid.Empty))
             {
                 await _customer.AddAsync(model.Customer);
@@ -75,5 +91,30 @@ public class CustomersController : Controller
             return RedirectToAction(nameof(Index));
         }
         return View(model);
+    }
+
+    // GET: /Customers/Delete/b86104b6-7205-4d5a-ab83-0eb534c0ae60
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        if (id.Equals(Guid.Empty))
+            return NotFound();
+
+        Customer customer = await _customer.GetCustomerByIdAsync(id);
+        if (customer == null)
+            return NotFound();
+
+        return View(customer);
+    }
+
+    // POST: /Customers/Delete/b86104b6-7205-4d5a-ab83-0eb534c0ae60
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        Customer customer = await _customer.GetCustomerByIdAsync(id);
+        await _customer.DeleteCustomerByIdAsync(customer.Id);
+        TempData["Success"] = "Customer deleted successfully.";
+
+        return RedirectToAction("Index");
     }
 }

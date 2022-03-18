@@ -36,11 +36,12 @@ public class CustomerService : BaseService<Customer>, ICustomerRepository
         return await _table.FindAsync(id);
     }
 
-    public async Task<Customer> RemoveCustomerByIdAsync(Guid id)
+    public async Task<Customer> DeleteCustomerByIdAsync(Guid id)
     {
-        Customer existing = await GetCustomerByIdAsync(id);
+        Customer existing = await _table.FindAsync(id);
         if (existing != null) 
             _table.Remove(existing);
+            await _context.SaveChangesAsync();
 
         return await Task.FromResult(existing);
     }

@@ -19,8 +19,6 @@ public class CustomerDto
     [Required]
     [MinAge]
     public DateTime? Birthdate { get; set; }
-
     public bool IsSubscribed { get; set; }
-    public MembershipTypeDto? MembershipTypeDto { get; set; }
     public byte MembershipTypeId { get; set; }
 }

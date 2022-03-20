@@ -17,7 +17,7 @@ public class CustomerDto
     public string LastName { get; set; } = string.Empty;
 
     [Required]
-    [MinAge]
+    [MinAgeDto]
     public DateTime? Birthdate { get; set; }
     public bool IsSubscribed { get; set; }
     public byte MembershipTypeId { get; set; }

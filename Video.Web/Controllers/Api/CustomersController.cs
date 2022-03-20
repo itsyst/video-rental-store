@@ -24,7 +24,7 @@ public class CustomersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType);
+        var customers = await _customer.GetAllCustomersAsync();
         
         return Ok(customers.Select(_mapper.Map<Customer, CustomerDto>));
     }
@@ -66,6 +66,7 @@ public class CustomersController : ControllerBase
             return NotFound();
 
         var _mappedCustomer = _mapper.Map(customerDto, cutomerInDb);
+        customerDto.Id = _mappedCustomer.Id;
         await _customer.UpdateAsync(_mappedCustomer);
 
         return Ok(_mappedCustomer);

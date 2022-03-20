@@ -60,35 +60,10 @@ public class MoviesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Upsert(MovieViewModel model, IFormFile? file)
     {
-         if (ModelState.IsValid)
+        if (ModelState.IsValid)
         {
-            string wwwRootPath = _hostEnvironment.WebRootPath;
             if (file != null)
-            {
-                string fileName = Guid.NewGuid().ToString();
-                var uploads = Path.Combine(wwwRootPath, @"uploads\posters");
-                var extension = Path.GetExtension(file.FileName).ToLower();
-
-                if (model.Movie.ImageUrl != null)
-                {
-                    var oldImagePath = Path.Combine(wwwRootPath, model.Movie.ImageUrl.TrimStart('\\'));
-                    if (System.IO.File.Exists(oldImagePath))
-                    {
-                        System.IO.File.Delete(oldImagePath);
-                    }
-                }
-
-
-                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-                {
-                    file.CopyTo(fileStreams);
-                }
-
-                model.Movie.ImageUrl = @"\uploads\posters\" + fileName + extension;
-
-
-                ResizeImage(file, Path.Combine(uploads, fileName + extension));
-            }
+                uploadPoster(model, file);
 
             if (model.Movie.Id == 0)
             {
@@ -112,5 +87,36 @@ public class MoviesController : Controller
         using var image = Image.Load(file.OpenReadStream());
         image.Mutate(x => x.Resize(600, 900));
         image.Save(path);
+    }
+
+    private void uploadPoster(MovieViewModel model, IFormFile file)
+    {
+        string wwwRootPath = _hostEnvironment.WebRootPath;
+
+        string fileName = Guid.NewGuid().ToString();
+        var uploads = Path.Combine(wwwRootPath, @"uploads\posters");
+        var extension = Path.GetExtension(file.FileName).ToLower();
+
+        if (model.Movie.ImageUrl != null)
+        {
+            var oldImagePath = Path.Combine(wwwRootPath, model.Movie.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+        }
+
+
+        using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+        {
+            file.CopyTo(fileStreams);
+        }
+
+        model.Movie.ImageUrl = @"\uploads\posters\" + fileName + extension;
+
+
+        ResizeImage(file, Path.Combine(uploads, fileName + extension));
+
+
     }
 }

@@ -9,10 +9,20 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Customer, CustomerDto>().ReverseMap();
-        CreateMap<Movie, MovieDto>().ReverseMap();
         CreateMap<Genre, GenreDto>().ReverseMap();
         CreateMap<MembershipType, MembershipTypeDto>().ReverseMap();
+
+        // Domain to Dto
+        CreateMap<Movie, MovieDto>()
+            .ForMember(m => m.Id, opt => opt.Ignore()); 
+        CreateMap<Customer, CustomerDto>()
+            .ForMember(m => m.Id, opt => opt.Ignore());        
+        
+        // Dto to Domain
+        CreateMap<MovieDto, Movie>()
+            .ForMember(m => m.Id, opt => opt.Ignore());
+        CreateMap<CustomerDto, Customer>()
+            .ForMember(m => m.Id, opt => opt.Ignore());
 
         // Cast object of type 'CustomerDto' to type 'Customer'.
         CreateMap<MinAgeDto, MinAge>().ReverseMap();  

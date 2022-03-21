@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Video.Application.Interfaces;
+using Video.Application.Profiles.Dtos;
 using Video.Domain.Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,21 +14,25 @@ public class MoviesController : ControllerBase
 {
     private IMovieRepository _movie;
     private IWebHostEnvironment _hostEnvironment;
+    private IMapper _mapper;
 
     public MoviesController(
         IMovieRepository movie,
-        IWebHostEnvironment hostEnvironment)
+        IWebHostEnvironment hostEnvironment,
+        IMapper mapper)
     {
         _movie = movie;
         _hostEnvironment = hostEnvironment;
+        _mapper = mapper;   
     }
     // GET: api/<MoviesController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var movies = await _movie.GetAllMoviesAsync(includeProperties: m => m.Genre);
+        var movies = await _movie.GetAllMoviesAsync();
 
-        return Ok(movies);
+        return Ok(movies.Select(_mapper.Map <Movie, MovieDto>));
+
     }
 
     // GET api/<MoviesController>/5
@@ -37,24 +43,26 @@ public class MoviesController : ControllerBase
         if (movieIndB == null)
             return NotFound();
 
-        return Ok(movieIndB);
+        return Ok(_mapper.Map<Movie,MovieDto>(movieIndB));
     }
 
     // POST api/<MoviesController>
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Movie movie)
+    public async Task<IActionResult> Post([FromBody] MovieDto movieDto)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        await _movie.AddAsync(movie);
+        var _mappedMovie = _mapper.Map<MovieDto, Movie>(movieDto);
+        movieDto.Id = _mappedMovie.Id;
+        await _movie.AddAsync(_mappedMovie);
 
-        return CreatedAtAction(nameof(Get), new { id = movie.Id }, movie);
+        return CreatedAtAction(nameof(Get), new { id = _mappedMovie.Id }, _mappedMovie);
     }
 
     // PUT api/<MoviesController>/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] Movie movie)
+    public async Task<IActionResult> Put(int id, [FromBody] MovieDto movieDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -63,16 +71,12 @@ public class MoviesController : ControllerBase
         if (movieIndB == null)
             return NotFound();
 
-        movieIndB.Name = movie.Name;
-        movieIndB.ImageUrl = movie.ImageUrl;
-        movieIndB.ReleaseDate = movie.ReleaseDate;
-        movieIndB.CreatedDate = movie.CreatedDate;
-        movieIndB.InStock = movie.InStock;
-        movieIndB.GenreId = movie.GenreId;
+        var _mappedMovie = _mapper.Map(movieDto,movieIndB);
+        movieIndB.Id = _mappedMovie.Id;
 
-        await _movie.UpdateAsync(movieIndB);
+        await _movie.UpdateAsync(_mappedMovie);
 
-        return Ok(movieIndB);
+        return Ok(_mappedMovie);
 
     }
 

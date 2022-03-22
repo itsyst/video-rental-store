@@ -3,15 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Video.Application.Interfaces;
 using Video.Application.Profiles.Dtos;
 using Video.Domain.Entities;
+ 
 
 namespace Video.Web.Controllers.Api;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
+[Produces("application/json")]
 public class CustomersController : ControllerBase
 {
     private readonly ICustomerRepository _customer;
-    private IMapper _mapper;
+    private readonly IMapper _mapper;
     public CustomersController(
         ICustomerRepository customer,
         IMapper mapper)
@@ -81,7 +83,7 @@ public class CustomersController : ControllerBase
         if (cutomerInDb == null)
             return NotFound();
 
-        await _customer.DeleteCustomerByIdAsync(cutomerInDb.Id); 
+        await _customer.DeleteCustomerByIdAsync(cutomerInDb.Id);
 
         return NoContent();
     }

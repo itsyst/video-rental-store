@@ -25,6 +25,12 @@ body {
     color: #d9534f;
 }
 
+/* Button modal
+-------------------------------------------------- */
+.bootbox-close-button {
+    display: none;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 .footer {

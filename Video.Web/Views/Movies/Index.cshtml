@@ -40,7 +40,7 @@
 @section scripts {
 <script>
     $(document).ready(function(){
-        $("#movies").DataTable( {
+        var table = $("#movies").DataTable( {
             ajax:{
                 url:"api/movies",
                 dataSrc:""
@@ -94,7 +94,7 @@
                             method: "DELETE",
                             dataType: "json",
                             success: function(){
-                                button.parents("tr").remove();
+                                table.row(button.parents("tr")).remove().draw();
                                 toastr.success("Movie deleted successfully");
                             },
                             error: function(){

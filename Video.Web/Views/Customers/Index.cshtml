@@ -64,7 +64,7 @@
 @section scripts {
 <script>
     $(document).ready(function(){
-        $("#customers").DataTable();
+        var table = $("#customers").DataTable();
 
         $("#customers").on("click", ".js-delete", function(){
             var button = $(this);
@@ -87,7 +87,7 @@
                             method: "DELETE",
                             dataType: "json",
                             success: function(){
-                                button.parents("tr").remove();
+                                table.row(button.parents("tr")).remove().draw();
                                 toastr.success("Customer deleted successfully");
                             },
                             error: function(){

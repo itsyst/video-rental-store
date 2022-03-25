@@ -16,17 +16,20 @@
         </div>
     </div>
     <br>
-    <table id="movies" class="table dispalay compact w-100">
+    <table id="movies" class="table display compact w-100">
         <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Genre)
+                    @Html.DisplayNameFor(model => model.Overview)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ImageUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.InStock)
@@ -53,14 +56,17 @@
                     }
                 },
                 {
-                    data:"genre.name"
-                },              
+                    data:"overview"
+                }, 
                 {
                     data:"imageUrl",
                     render: function(data){
                         return "<img src=" + data + " class='img-thumbnail' style='width:64px; height:84px;' />"
-                    }
-                },                
+                    },
+                },
+                {
+                    data:"genre.name"
+                },              
                 {
                     data:"inStock"
                 },

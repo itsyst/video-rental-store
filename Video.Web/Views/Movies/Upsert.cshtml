@@ -23,6 +23,11 @@
                         <input asp-for="Movie.Name" type="text" class="form-control" />
                         <span asp-validation-for="Movie.Name" class="text-danger"></span>
                     </div>
+                    <div class="form-group mb-3 @groupwidth">
+                        <label asp-for="Movie.Overview" class="control-label"></label>
+                        <textarea asp-for="Movie.Overview" type="text" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Movie.Overview" class="text-danger"></span>
+                    </div>
                     @if (Model.Movie.Id != 0)
                     {
                         <div class="mb-3 @groupwidth">

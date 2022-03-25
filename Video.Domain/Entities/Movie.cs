@@ -29,5 +29,6 @@ public class Movie
     [Display(Name = "Genre")]
     public ushort GenreId { get; set; }
     public Genre? Genre { get; set; }
+    public string? Overview { get; set; }
 
 }

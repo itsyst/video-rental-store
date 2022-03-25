@@ -25,4 +25,6 @@ public class MovieDto
     public ushort GenreId { get; set; }
 
     public GenreDto? Genre { get; set; }
+    public string? Overview { get; set; }
+
 }

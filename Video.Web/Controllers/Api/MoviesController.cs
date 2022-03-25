@@ -12,9 +12,9 @@ namespace Video.Web.Controllers.Api;
 [ApiController]
 public class MoviesController : ControllerBase
 {
-    private IMovieRepository _movie;
-    private IWebHostEnvironment _hostEnvironment;
-    private IMapper _mapper;
+    private readonly IMovieRepository _movie;
+    private readonly IWebHostEnvironment _hostEnvironment;
+    private readonly IMapper _mapper;
 
     public MoviesController(
         IMovieRepository movie,
@@ -29,10 +29,9 @@ public class MoviesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var movies = await _movie.GetAllMoviesAsync();
+        var movies = await _movie.GetAllMoviesAsync(includeProperties:m=>m.Genre);
 
         return Ok(movies.Select(_mapper.Map <Movie, MovieDto>));
-
     }
 
     // GET api/<MoviesController>/5

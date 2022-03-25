@@ -18,7 +18,7 @@
         </div>
     </div>
     <br>
-    <table id="customers" class="table">
+    <table id="customers" class="table display compact">
         <thead>
             <tr>
                 <th scope="col">
@@ -64,6 +64,8 @@
 @section scripts {
 <script>
     $(document).ready(function(){
+        $("#customers").DataTable();
+
         $("#customers").on("click", ".js-delete", function(){
             var button = $(this);
             bootbox.confirm({
@@ -78,19 +80,21 @@
                         className: 'btn-danger'
                     }
                 },
-                callback: function () {
-                    $.ajax({
-                        url: "api/customers/" + button.attr("data-customer-id"),
-                        method: "DELETE",
-                        dataType: "json",
-                        success: function(){
+                callback: function (result) {
+                    if(result){
+                        $.ajax({
+                            url: "api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            dataType: "json",
+                            success: function(){
                                 button.parents("tr").remove();
                                 toastr.success("Customer deleted successfully");
-                        },
-                        error: function(){
+                            },
+                            error: function(){
                             toastr.error("Something went wrong!");
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             });
         });

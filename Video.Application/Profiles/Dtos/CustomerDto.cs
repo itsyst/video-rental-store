@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Video.Domain.ValueObject;
 
 namespace Video.Application.Profiles.Dtos;
 
@@ -20,5 +19,6 @@ public class CustomerDto
     [MinAgeDto]
     public DateTime? Birthdate { get; set; }
     public bool IsSubscribed { get; set; }
+    public MembershipTypeDto? MembershipType { get; set; }
     public byte MembershipTypeId { get; set; }
 }

@@ -17,7 +17,7 @@ public class HomeController : Controller
         _logger = logger;
         _movie = movie;
     }
- 
+
     public async Task<IActionResult> Index()
     {
         IEnumerable<Movie> movies = await _movie.GetAllMoviesAsync(includeProperties: m => m.Genre);

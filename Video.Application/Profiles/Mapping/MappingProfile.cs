@@ -17,8 +17,8 @@ public class MappingProfile : Profile
         //CreateMap<Movie, MovieDto>()
         //    .ForMember(m => m.Id, opt => opt.Ignore()); 
         CreateMap<Customer, CustomerDto>()
-            .ForMember(m => m.Id, opt => opt.Ignore());        
-        
+            .ForMember(m => m.Id, opt => opt.Ignore());
+
         // Dto to Domain
         //CreateMap<MovieDto, Movie>()
         //    .ForMember(m => m.Id, opt => opt.Ignore());
@@ -26,6 +26,6 @@ public class MappingProfile : Profile
             .ForMember(m => m.Id, opt => opt.Ignore());
 
         // Cast object of type 'CustomerDto' to type 'Customer'.
-        CreateMap<MinAgeDto, MinAge>().ReverseMap();  
+        CreateMap<MinAgeDto, MinAge>().ReverseMap();
     }
 }

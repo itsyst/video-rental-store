@@ -11,4 +11,4 @@ public class MembershipType
     [DataType(DataType.DateTime)]
     public byte Duration { get; set; }
     public byte DiscountRate { get; set; }
- }
+}

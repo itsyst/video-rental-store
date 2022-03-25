@@ -39,9 +39,12 @@ public class CustomerService : BaseService<Customer>, ICustomerRepository
     public async Task<Customer> DeleteCustomerByIdAsync(Guid id)
     {
         Customer existing = await _table.FindAsync(id);
-        if (existing != null) 
+        if (existing != null)
+        {
             _table.Remove(existing);
-            await _context.SaveChangesAsync();
+        }
+
+        await _context.SaveChangesAsync();
 
         return await Task.FromResult(existing);
     }

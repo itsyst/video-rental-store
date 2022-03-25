@@ -13,11 +13,11 @@ public class Movie
     public string? ImageUrl { get; set; }
 
     [Required]
-    [Display(Name ="Release Date")]
+    [Display(Name = "Release Date")]
     public DateTime ReleaseDate { get; set; }
 
     [Required]
-    [Display(Name ="Created Date")]
+    [Display(Name = "Created Date")]
     public DateTime CreatedDate { get; set; }
 
     [Required]

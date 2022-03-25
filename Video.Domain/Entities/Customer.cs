@@ -8,8 +8,8 @@ public class Customer
     [Key]
     public Guid Id { get; set; }
 
-    [Required(ErrorMessage ="Please enter customer's first name.")]
-    [Display(Name="First Name")]
+    [Required(ErrorMessage = "Please enter customer's first name.")]
+    [Display(Name = "First Name")]
     [StringLength(50)]
     public string FirstName { get; set; } = string.Empty;
 

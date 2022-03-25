@@ -48,7 +48,9 @@ public class CustomersController : Controller
             foreach (var type in membershipTypes)
             {
                 if (type.Value.Equals(model.Customer.MembershipTypeId))
+                {
                     model.Customer.MembershipTypeId = (byte)type.Value;
+                }
             }
             return View(model);
         }
@@ -97,11 +99,15 @@ public class CustomersController : Controller
     public async Task<IActionResult> Delete(Guid id)
     {
         if (id.Equals(Guid.Empty))
+        {
             return NotFound();
+        }
 
         Customer customer = await _customer.GetCustomerByIdAsync(id);
         if (customer == null)
+        {
             return NotFound();
+        }
 
         return View(customer);
     }

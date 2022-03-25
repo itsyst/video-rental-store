@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Video.Application.Interfaces;
 using Video.Application.Profiles.Dtos;
 using Video.Domain.Entities;
- 
+
 
 namespace Video.Web.Controllers.Api;
 
@@ -26,8 +26,8 @@ public class CustomersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var customers = await _customer.GetAllCustomersAsync(includeProperties: c=>c.MembershipType);
-        
+        var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType);
+
         return Ok(customers.Select(_mapper.Map<Customer, CustomerDto>));
     }
 
@@ -37,7 +37,9 @@ public class CustomersController : ControllerBase
     {
         var customerInDb = await _customer.GetCustomerByIdAsync(id);
         if (customerInDb == null)
+        {
             return NotFound();
+        }
 
         return Ok(_mapper.Map<Customer, CustomerDto>(customerInDb));
     }
@@ -46,8 +48,10 @@ public class CustomersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CustomerDto customerDto)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
+        {
             return BadRequest(ModelState);
+        }
 
         var _mappedCustomer = _mapper.Map<CustomerDto, Customer>(customerDto);
         customerDto.Id = _mappedCustomer.Id;
@@ -61,11 +65,15 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> Put(Guid id, [FromBody] CustomerDto customerDto)
     {
         if (!ModelState.IsValid)
+        {
             return BadRequest(ModelState);
+        }
 
         var cutomerInDb = await _customer.GetCustomerByIdAsync(id);
         if (cutomerInDb == null)
+        {
             return NotFound();
+        }
 
         var _mappedCustomer = _mapper.Map(customerDto, cutomerInDb);
         customerDto.Id = _mappedCustomer.Id;
@@ -81,7 +89,9 @@ public class CustomersController : ControllerBase
         Customer cutomerInDb = await _customer.GetCustomerByIdAsync(id);
 
         if (cutomerInDb == null)
+        {
             return NotFound();
+        }
 
         await _customer.DeleteCustomerByIdAsync(cutomerInDb.Id);
 

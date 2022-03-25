@@ -23,15 +23,15 @@ public class MoviesController : ControllerBase
     {
         _movie = movie;
         _hostEnvironment = hostEnvironment;
-        _mapper = mapper;   
+        _mapper = mapper;
     }
     // GET: api/<MoviesController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var movies = await _movie.GetAllMoviesAsync(includeProperties:m=>m.Genre);
+        var movies = await _movie.GetAllMoviesAsync(includeProperties: m => m.Genre);
 
-        return Ok(movies.Select(_mapper.Map <Movie, MovieDto>));
+        return Ok(movies.Select(_mapper.Map<Movie, MovieDto>));
     }
 
     // GET api/<MoviesController>/5
@@ -40,9 +40,11 @@ public class MoviesController : ControllerBase
     {
         var movieIndB = await _movie.GetByIdAsync(id);
         if (movieIndB == null)
+        {
             return NotFound();
+        }
 
-        return Ok(_mapper.Map<Movie,MovieDto>(movieIndB));
+        return Ok(_mapper.Map<Movie, MovieDto>(movieIndB));
     }
 
     // POST api/<MoviesController>
@@ -50,7 +52,9 @@ public class MoviesController : ControllerBase
     public async Task<IActionResult> Post([FromBody] MovieDto movieDto)
     {
         if (!ModelState.IsValid)
+        {
             return BadRequest();
+        }
 
         var _mappedMovie = _mapper.Map<MovieDto, Movie>(movieDto);
         movieDto.Id = _mappedMovie.Id;
@@ -64,13 +68,17 @@ public class MoviesController : ControllerBase
     public async Task<IActionResult> Put(int id, [FromBody] MovieDto movieDto)
     {
         if (!ModelState.IsValid)
+        {
             return BadRequest(ModelState);
+        }
 
         var movieIndB = await _movie.GetByIdAsync(id);
         if (movieIndB == null)
+        {
             return NotFound();
+        }
 
-        var _mappedMovie = _mapper.Map(movieDto,movieIndB);
+        var _mappedMovie = _mapper.Map(movieDto, movieIndB);
         movieIndB.Id = _mappedMovie.Id;
 
         await _movie.UpdateAsync(_mappedMovie);
@@ -86,13 +94,18 @@ public class MoviesController : ControllerBase
         var movieIndB = await _movie.GetByIdAsync(id);
 
         if (movieIndB == null)
+        {
             return NotFound();
+        }
 
         if (movieIndB.ImageUrl != null)
         {
             string oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, movieIndB.ImageUrl.TrimStart('\\'));
 
-            if (System.IO.File.Exists(oldImagePath)) System.IO.File.Delete(oldImagePath);
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
         }
 
         await _movie.DeleteAsync(id);

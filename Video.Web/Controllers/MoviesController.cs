@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using Video.Application.Interfaces;
 using Video.Domain.Entities;
 using Video.Web.ViewModels;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 
 namespace Video.Web.Controllers;
 
@@ -62,7 +62,9 @@ public class MoviesController : Controller
         if (ModelState.IsValid)
         {
             if (file != null)
+            {
                 uploadPoster(model, file);
+            }
 
             if (model.Movie.Id == 0)
             {

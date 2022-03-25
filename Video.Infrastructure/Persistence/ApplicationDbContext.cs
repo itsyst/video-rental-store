@@ -29,7 +29,7 @@ public class ApplicationDbContext : DbContext
         optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"])
                       .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         optionsBuilder.EnableSensitiveDataLogging();
-               
+
 
     }
 }

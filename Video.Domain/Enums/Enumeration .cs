@@ -17,7 +17,7 @@ public class Enumeration : IComparable
     {
         return Name;
     }
- 
+
     public int CompareTo(object other)
     {
         return Value.CompareTo(((Enumeration)other).Value);

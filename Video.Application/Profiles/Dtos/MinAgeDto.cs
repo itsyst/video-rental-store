@@ -10,10 +10,14 @@ namespace Video.Application.Profiles.Dtos
             var customerDto = (CustomerDto)validationContext.ObjectInstance;
 
             if (customerDto.MembershipTypeId == 0 || customerDto.MembershipTypeId == MembershipTypes.PAYASYOUGO.Value)
+            {
                 return ValidationResult.Success;
+            }
 
             if (customerDto.Birthdate == null)
+            {
                 return new ValidationResult("Birthdate is required");
+            }
 
             int age = GetAge(customerDto.Birthdate);
             return (age >= 18)
@@ -29,7 +33,9 @@ namespace Video.Application.Profiles.Dtos
                 year = DateTime.Now.Year - Birthdate.Value.Year;
                 int month = DateTime.Now.Month - Birthdate.Value.Month;
                 if (month < 0)
+                {
                     year--;
+                }
             }
 
             return year;

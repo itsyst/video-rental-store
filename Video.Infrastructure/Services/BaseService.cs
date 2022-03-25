@@ -41,8 +41,8 @@ public class BaseService<T> : IAsyncGenericRepository<T> where T : class
         await _context.SaveChangesAsync();
 
         return entity;
-    }    
-    
+    }
+
     public async Task<T> DeleteAsync(int id)
     {
 

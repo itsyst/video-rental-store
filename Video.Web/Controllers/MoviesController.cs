@@ -25,7 +25,7 @@ public class MoviesController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        return View();
+        return await Task.FromResult(View());
     }
 
     // GET: movies/Upsert/b86104b6-7205-4d5a-ab83-0eb534c0ae60
@@ -63,10 +63,10 @@ public class MoviesController : Controller
         {
             if (file != null)
             {
-                uploadPoster(model, file);
+                UploadPoster(model, file);
             }
 
-            if (model.Movie.Id == 0)
+            if (model.Movie!.Id == 0)
             {
                 model.Movie.CreatedDate = DateTime.Now;
                 await _movie.AddAsync(model.Movie);
@@ -90,7 +90,7 @@ public class MoviesController : Controller
         image.Save(path);
     }
 
-    private void uploadPoster(MovieViewModel model, IFormFile file)
+    private void UploadPoster(MovieViewModel model, IFormFile file)
     {
         string wwwRootPath = _hostEnvironment.WebRootPath;
 
@@ -98,7 +98,7 @@ public class MoviesController : Controller
         var uploads = Path.Combine(wwwRootPath, @"uploads\posters");
         var extension = Path.GetExtension(file.FileName).ToLower();
 
-        if (model.Movie.ImageUrl != null)
+        if (model.Movie!.ImageUrl != null)
         {
             var oldImagePath = Path.Combine(wwwRootPath, model.Movie.ImageUrl.TrimStart('\\'));
             if (System.IO.File.Exists(oldImagePath))

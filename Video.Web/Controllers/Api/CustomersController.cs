@@ -26,7 +26,7 @@ public class CustomersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType);
+        var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType!);
 
         return Ok(customers.Select(_mapper.Map<Customer, CustomerDto>));
     }

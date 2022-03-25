@@ -16,7 +16,7 @@
         </div>
     </div>
     <br>
-    <table class="table">
+    <table id="movies" class="table dispalay compact w-100">
         <thead>
             <tr>
                 <th>
@@ -34,27 +34,77 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var movie in Model)
-            {
-                <tr class="align-middle">
-                    <td>
-                        @Html.ActionLink(movie.Name,"Upsert", "Movies" , new {movie.Id})
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => movie.Genre.Name)
-                    </td>
-                    <td>
-                        <img src="@movie.ImageUrl" class="img-thumbnail" style="width:64px; height:84px;" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => movie.InStock)
-                    </td>
-                    <td class="text-end">
-                        <a class="btn-link mx-2" asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id"> <i class="bi bi-trash-fill text-danger" style="font-size: 1.2rem;"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
+        <tbody class="align-middle"></tbody>
     </table>
 </div>
+@section scripts {
+<script>
+    $(document).ready(function(){
+        $("#movies").DataTable( {
+            ajax:{
+                url:"api/movies",
+                dataSrc:""
+            },
+            columns:[
+                {
+                    data:"name",
+                    render:function(data,type,movie){
+                        return "<a href='/movies/upsert/" + movie.id + "'>" + data + "</a>"
+                    }
+                },
+                {
+                    data:"genre.name"
+                },              
+                {
+                    data:"imageUrl",
+                    render: function(data){
+                        return "<img src=" + data + " class='img-thumbnail' style='width:64px; height:84px;' />"
+                    }
+                },                
+                {
+                    data:"inStock"
+                },
+                {
+                    data:"id",
+                    render: function(data){
+                       return "<a class='btn-link mx-2 js-delete' data-movie-id=" + data + "><i class='bi bi-trash-fill text-danger' style='font-size: 1.2rem; cursor:pointer;'></i></a>"
+                    }
+                }
+            ]
+        });
+
+        $("#movies").on("click", ".js-delete", function(){
+            var button = $(this);
+            bootbox.confirm({
+                message: "<p class='mt-3 text-danger fw-bold'>Are you sure want to delete this movie?</p>",
+                buttons: {
+                    confirm: {
+                        label: '<i class="bi bi-check"></i> Confirm',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '<i class="bi bi-x"></i> Cancel',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if(result){
+                        $.ajax({
+                            url: "api/movies/" + button.attr("data-movie-id"),
+                            method: "DELETE",
+                            dataType: "json",
+                            success: function(){
+                                button.parents("tr").remove();
+                                toastr.success("Movie deleted successfully");
+                            },
+                            error: function(){
+                            toastr.error("Something went wrong!");
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+}

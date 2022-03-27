@@ -1,6 +1,7 @@
-using Video.Application;
-using Video.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Video.Application;
+using Video.Domain.Entities;
+using Video.Infrastructure;
 using Video.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,31 @@ var builder = WebApplication.CreateBuilder(args);
 //Services configuration
 builder.Services.AddPersistanceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
-builder.Services.AddDefaultIdentity<IdentityUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Identity Services
+builder.Services.AddScoped<ApplicationUser>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddDefaultTokenProviders();
+
+// Application Cookies
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+
+});
+
+// Session cache
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

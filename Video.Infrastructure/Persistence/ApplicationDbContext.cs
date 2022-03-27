@@ -6,7 +6,7 @@ using Video.Domain.Entities;
 
 namespace Video.Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext
 {
     private readonly IConfiguration _configuration;
 
@@ -22,7 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<MembershipType>? MembershipTypes { get; set; }
     public DbSet<Customer>? Customers { get; set; }
     public DbSet<Movie>? Movies { get; set; }
-
+    public DbSet<ApplicationUser>? Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

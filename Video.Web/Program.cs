@@ -1,16 +1,19 @@
 using Video.Application;
 using Video.Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Video.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 
 //Services configuration
 builder.Services.AddPersistanceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddDefaultIdentity<IdentityUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+ 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,11 +31,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();

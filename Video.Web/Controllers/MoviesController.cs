@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
@@ -8,6 +9,7 @@ using Video.Web.ViewModels;
 
 namespace Video.Web.Controllers;
 
+[Authorize]
 public class MoviesController : Controller
 {
     private readonly IMovieRepository _movie;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Video.Application.Interfaces;
 using Video.Domain.Entities;
@@ -9,6 +10,7 @@ using Video.Web.ViewModels;
 
 namespace Video.Web.Controllers;
 
+[Authorize]
 public class CustomersController : Controller
 {
     private readonly ICustomerRepository _customer;

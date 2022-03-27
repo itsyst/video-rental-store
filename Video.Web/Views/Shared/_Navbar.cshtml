@@ -1,4 +1,6 @@
-﻿<header>
+﻿@using Microsoft.AspNetCore.Identity
+
+<header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:#032541;">
         <div class="container-fluid">
             <a class="navbar-brand text-secondary" asp-area="" asp-controller="Home" asp-action="Index">VideoTek</a>
@@ -17,5 +19,6 @@
                 </ul>
             </div>
         </div>
+         <partial name="_LoginPartial" />
     </nav>
 </header> 

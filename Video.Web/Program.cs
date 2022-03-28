@@ -11,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistanceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
+// Add services to the container.+
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
 // Identity Services
 builder.Services.AddScoped<ApplicationUser>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
@@ -39,8 +43,6 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
  
 var app = builder.Build();
 
@@ -61,11 +63,13 @@ PersistanceContainer.SeedDatabase(app.Services.CreateAsyncScope());
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseSession();
 
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages();
 

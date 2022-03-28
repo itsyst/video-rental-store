@@ -1,4 +1,5 @@
 @using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @using Video.Domain.Entities
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -10,7 +11,7 @@
         <li class="nav-item">
             <a id="manage" class="btn btn-outline-success my-2 me-1 my-sm-0 dropdown-toggle" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 <i class="bi bi-person-badge"></i>
-                Hello @UserManager.GetUserName(User)! 
+                 Hello @(User.FindFirst(ClaimTypes.GivenName)?.Value)! 
             </a>
         </li>
         <li class="nav-item my-2 my-sm-0">

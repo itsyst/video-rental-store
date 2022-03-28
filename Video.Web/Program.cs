@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Video.Application;
 using Video.Domain.Entities;
+using Video.Domain.Utilities;
 using Video.Infrastructure;
 using Video.Infrastructure.Persistence;
 
@@ -12,10 +13,13 @@ builder.Services.AddApplicationServices();
 
 // Identity Services
 builder.Services.AddScoped<ApplicationUser>();
-builder.Services.AddDefaultIdentity<ApplicationUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager<SignInManager<ApplicationUser>>()
     .AddDefaultTokenProviders();
+
+// Custom User claim factory
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
 
 // Application Cookies
 builder.Services.ConfigureApplicationCookie(options =>
@@ -61,6 +65,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
 
 app.Run();

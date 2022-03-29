@@ -5,6 +5,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using Video.Application.Interfaces;
 using Video.Domain.Entities;
+using Video.Domain.Utilities;
 using Video.Web.ViewModels;
 
 namespace Video.Web.Controllers;
@@ -57,6 +58,7 @@ public class MoviesController : Controller
     }
 
     // GET: Customers/Upsert/b86104b6-7205-4d5a-ab83-0eb534c0ae60
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Upsert(MovieViewModel model, IFormFile? file)

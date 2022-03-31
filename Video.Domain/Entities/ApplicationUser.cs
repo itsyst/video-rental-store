@@ -20,9 +20,4 @@ public class ApplicationUser : IdentityUser
     [Required]
     public string? State { get; set; }
     public string? PostalCode { get; set; }
-
-    [Display(Name = "Phone Number")]
-    [DataType(DataType.PhoneNumber)]
-    [Required]
-    public string? PhoneNumber { get; set; }
 }

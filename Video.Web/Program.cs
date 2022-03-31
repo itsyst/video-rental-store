@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Video.Application;
 using Video.Domain.Entities;
 using Video.Domain.Utilities;
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistanceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
-// Add services to the container.+
+// Add services to the container. 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
@@ -20,11 +21,13 @@ builder.Services.AddScoped<ApplicationUser>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager<SignInManager<ApplicationUser>>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
 
-// Custom User claim factory
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
-
+// Email Services
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+ 
+ 
 // Application Cookies
 builder.Services.ConfigureApplicationCookie(options =>
 {

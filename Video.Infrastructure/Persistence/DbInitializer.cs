@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Video.Application.Interfaces;
 using Video.Domain.Entities;
+using Video.Domain.Utilities;
 
 #nullable disable
 
@@ -9,13 +11,19 @@ namespace Video.Infrastructure.Persistence;
 
 public class DbInitializer : IDbInitializer
 {
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILogger<DbInitializer> _logger;
     private readonly ApplicationDbContext _context;
 
     public DbInitializer(
+                    RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
         ILogger<DbInitializer> logger,
         ApplicationDbContext context)
     {
+        _roleManager = roleManager;
+        _userManager = userManager;
         _logger = logger;
         _context = context;
     }
@@ -35,6 +43,13 @@ public class DbInitializer : IDbInitializer
             _logger.LogError(ex, "An error occurred while seeding the database.");
         }
 
+        if (!_roleManager.RoleExistsAsync(Roles.Admin).GetAwaiter().GetResult())
+        {
+
+            _roleManager.CreateAsync(new IdentityRole(Roles.Admin)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(Roles.Guest)).GetAwaiter().GetResult();
+
+        }
         // Create MembershipTypes
         if (!_context.MembershipTypes.Any())
         {

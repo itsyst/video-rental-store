@@ -1,107 +1,155 @@
-﻿@model Video.Web.ViewModels.MovieViewModel;
+﻿@using Video.Domain.Utilities
+@model Video.Web.ViewModels.MovieViewModel;
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 
-    var formwidth = (Model.Movie!.Id != 0) ? "col-8" : "col-12";
-    var groupwidth = (Model.Movie.Id != 0) ? "col-12 col-sm-10" : "col-12";
+	var formwidth = (Model.Movie!.Id != 0) ? "col-8" : "col-12";
+	var groupwidth = (Model.Movie.Id != 0) ? "col-12 col-sm-10" : "col-12";
 #pragma warning disable
 }
 <div class="d-flex justify-content-center p-3">
-    <div class="card col-md-9 p-3">
-        <div class="row pt-4">
-            <h2 class="text-primary ml-3">@(Model.Movie.Id != 0? "Update" : "Create") Movie</h2>
-        </div>
-        <div class="row">
-            <div class="@formwidth">
-                <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly"></div>
-                    <input asp-for="Movie.Id" hidden />
-                    <input asp-for="Movie.ImageUrl" hidden />
-                    <div class="form-group mb-3 @groupwidth">
-                        <label asp-for="Movie.Name" class="control-label"></label>
-                        <input asp-for="Movie.Name" type="text" class="form-control" />
-                        <span asp-validation-for="Movie.Name" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3 @groupwidth">
-                        <label asp-for="Movie.Overview" class="control-label"></label>
-                        <textarea asp-for="Movie.Overview" type="text" class="form-control" rows="4"></textarea>
-                        <span asp-validation-for="Movie.Overview" class="text-danger"></span>
-                    </div>
-                    @if (Model.Movie.Id != 0)
-                    {
-                        <div class="mb-3 @groupwidth">
-                            <label asp-for="Movie.ReleaseDate" class="control-label"></label>
-                            @Html.TextBoxFor(c=>c.Movie.ReleaseDate, "{0:d MMM yyyy}", new{@class="form-control"})
-                            <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="mb-3 @groupwidth">
-                            <label asp-for="Movie.ReleaseDate" class="control-label"></label>
-                            <input asp-for="Movie.ReleaseDate" type="date" class="form-control" />
-                            <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
-                        </div>
-                    }
-                    <div class="mb-3 @groupwidth">
-                        <label asp-for="Movie.GenreId" class="control-label"></label>
-                        <select asp-for="Movie.GenreId" asp-items="@Model.Genres" class="form-select">
-                            <option disabled selected>-- Select Genre --</option>
-                        </select>
-                        <span asp-validation-for="Movie.GenreId" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3 @groupwidth">
-                        <label asp-for="Movie.InStock" class="control-label"></label>
-                        <input asp-for="Movie.InStock" type="number" class="form-control" />
-                        <span asp-validation-for="Movie.InStock" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3 @groupwidth">
-                        <label asp-for="Movie.ImageUrl" class="control-label"></label>
-                        <input type="file" id="uploadPoster" name="file" class="form-control" />
-                        <span asp-validation-for="Movie.ImageUrl" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mt-3 row">
-                        <div class="col-10">
-                            @if (Model.Movie.Id != 0)
-                            {
-                                @Html.AntiForgeryToken()
-                                <input type="submit" value="Update" class="btn btn-primary" />
-                            }
-                            else
-                            {
-                                @Html.AntiForgeryToken()
-                                <input type="submit" onclick="return ValideInputWithImage()" value="Save" class="btn btn-primary" />
-                            }
-                            <button asp-action="Index" class="btn btn-outline-primary mt-1 mt-md-0">Back to list</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            @if (Model.Movie.Id != 0)
-            {
-                <div class="mt-3 pt-3 mb-3 pb-3 col-12 col-sm-4 text-sm-end">
-                    <img src="@Model.Movie.ImageUrl" class="w-100" />
-                </div>
-            }
-        </div>
-    </div>
+	<div class="card col-md-9 p-3">
+		<div class="row pt-4">
+			<h2 class="text-primary ml-3">
+				@if (User.IsInRole(Roles.Admin))
+				{
+					@(Model.Movie.Id != 0? "Update" : "Create")
+				}
+				Movie
+			</h2>
+		</div>
+		<div class="row">
+			<div class="@formwidth">
+				<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+					<div asp-validation-summary="ModelOnly"></div>
+					<input asp-for="Movie.Id" hidden />
+					<input asp-for="Movie.ImageUrl" hidden />
+					<div class="form-group mb-3 @groupwidth">
+						<label asp-for="Movie.Name" class="control-label"></label>
+						@if (User.IsInRole(Roles.Admin))
+						{
+							<input asp-for="Movie.Name" type="text" class="form-control" />
+						}
+						else
+						{
+							<input asp-for="Movie.Name" type="text" class="form-control" disabled/>
+							
+						}
+						<span asp-validation-for="Movie.Name" class="text-danger"></span>
+					</div>
+					<div class="form-group mb-3 @groupwidth">
+						<label asp-for="Movie.Overview" class="control-label"></label>
+						@if(User.IsInRole(Roles.Admin)){
+							<textarea asp-for="Movie.Overview" type="text" class="form-control" rows="4"></textarea>
+						}
+						else
+						{
+							<textarea asp-for="Movie.Overview" type="text" class="form-control" rows="4" disabled></textarea>
+						}
+						<span asp-validation-for="Movie.Overview" class="text-danger"></span>
+					</div>
+					@if (Model.Movie.Id != 0)
+					{
+						<div class="mb-3 @groupwidth">
+							<label asp-for="Movie.ReleaseDate" class="control-label"></label>
+							@if (User.IsInRole(Roles.Admin))
+							{
+								@Html.TextBoxFor(c=>c.Movie.ReleaseDate, "{0:d MMM yyyy}", new{@class="form-control"})
+							}
+							else
+							{
+								<input asp-for="Movie.ReleaseDate" type="date" class="form-control" disabled/>
+							}
+							<span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
+						</div>
+					}
+					else
+					{
+						<div class="mb-3 @groupwidth">
+							<label asp-for="Movie.ReleaseDate" class="control-label"></label>
+							<input asp-for="Movie.ReleaseDate" type="date" class="form-control" />
+							<span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
+						</div>
+					}
+					<div class="mb-3 @groupwidth">
+						<label asp-for="Movie.GenreId" class="control-label"></label>
+						@if(User.IsInRole(Roles.Admin)){
+							<select asp-for="Movie.GenreId" asp-items="@Model.Genres" class="form-select">
+								<option disabled selected>-- Select Genre --</option>
+							</select>
+						}
+						else
+						{
+							<select asp-for="Movie.GenreId" asp-items="@Model.Genres" class="form-select" disabled>
+								<option disabled selected>-- Select Genre --</option>
+							</select>
+						}
+						<span asp-validation-for="Movie.GenreId" class="text-danger"></span>
+					</div>
+					<div class="mb-3 @groupwidth">
+						<label asp-for="Movie.InStock" class="control-label"></label>
+						@if(User.IsInRole(Roles.Admin)){
+							<input asp-for="Movie.InStock" type="number" class="form-control"/>
+						}
+						else
+						{
+						<input asp-for="Movie.InStock" type="number" class="form-control" disabled/>
+						}
+						<span asp-validation-for="Movie.InStock" class="text-danger"></span>
+					</div>
+					@if (User.IsInRole(Roles.Admin))
+					{
+						<div class="form-group mb-3 @groupwidth">
+							<label asp-for="Movie.ImageUrl" class="control-label"></label>
+							<input type="file" id="uploadPoster" name="file" class="form-control" />
+							<span asp-validation-for="Movie.ImageUrl" class="text-danger"></span>
+						</div>
+					}
+					<div class="form-group mt-3 row">
+						<div class="col-10">
+							@if (User.IsInRole(Roles.Admin))
+							{
+								@if (Model.Movie.Id != 0)
+								{
+									@Html.AntiForgeryToken()
+									<input type="submit" value="Update" class="btn btn-primary" />
+								}
+								else
+								{
+									@Html.AntiForgeryToken()
+									<input type="submit" onclick="return ValideInputWithImage()" value="Save" class="btn btn-primary" />
+								}
+							}
+							<button asp-action="Index" class="btn btn-outline-primary mt-1 mt-md-0">Back to list</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			@if (Model.Movie.Id != 0)
+			{
+				<div class="mt-3 pt-3 mb-3 pb-3 col-12 col-sm-4 text-sm-end">
+					<img src="@Model.Movie.ImageUrl" class="w-100" />
+				</div>
+			}
+		</div>
+	</div>
 </div>
 
 @section Scripts {
 	@{
-    <partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 	}
 <script>
-    function ValideInputWithImage(){
-           if(document.getElementById("uploadPoster").value == "") {
-               Swal.fire({
-                   icon: 'error',
-                   title: 'Oops...',
-                   text: 'Please upload an Image!',
-               });
-               return false;
-           }
-    }
+	function ValideInputWithImage(){
+		   if(document.getElementById("uploadPoster").value == "") {
+			   Swal.fire({
+				   icon: 'error',
+				   title: 'Oops...',
+				   text: 'Please upload an Image!',
+			   });
+			   return false;
+		   }
+	}
 </script>
 }

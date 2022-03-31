@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Video.Application.Interfaces;
 using Video.Domain.Entities;
 using Video.Domain.Enums;
+using Video.Domain.Utilities;
 using Video.Web.ViewModels;
 
 #nullable disable
 
 namespace Video.Web.Controllers;
 
-[Authorize]
+[Authorize(Roles = Roles.Admin)]
 public class CustomersController : Controller
 {
     private readonly ICustomerRepository _customer;

@@ -5,6 +5,7 @@ using Video.Domain.Entities;
 using Video.Domain.Utilities;
 using Video.Infrastructure;
 using Video.Infrastructure.Persistence;
+ 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +17,21 @@ builder.Services.AddApplicationServices();
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
-// Identity Services
+// Identity Services - Authentication and authorization
+
 builder.Services.AddScoped<ApplicationUser>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager<SignInManager<ApplicationUser>>()
     .AddDefaultTokenProviders()
     .AddClaimsPrincipalFactory<CustomUserClaimsPrincipalFactory>();
+
+builder.Services.AddAuthentication()
+    .AddFacebook(facebookOptions =>
+    {
+        facebookOptions.AppId = builder.Configuration.GetSection("FacebookSettings:AppId").Get<string>();
+        facebookOptions.AppSecret = builder.Configuration.GetSection("FacebookSettings:AppSecret").Get<string>();
+    });
 
 // Email Services
 builder.Services.AddScoped<IEmailSender, EmailSender>();

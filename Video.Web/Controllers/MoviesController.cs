@@ -28,7 +28,10 @@ public class MoviesController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        return await Task.FromResult(View());
+        if (User.IsInRole(Roles.Admin))
+            return await Task.FromResult(View("Index"));
+        else
+            return await Task.FromResult(View("List"));
     }
 
     // GET: movies/Upsert/b86104b6-7205-4d5a-ab83-0eb534c0ae60

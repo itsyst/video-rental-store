@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Video.Domain.Entities.Movie>
+
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Movies</h2>
+        </div>
+    </div>
+    <br>
+    <table id="movies" class="table display compact w-100">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Overview)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImageUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InStock)
+                </th>
+            </tr>
+        </thead>
+        <tbody class="align-middle"></tbody>
+    </table>
+</div>
+@section scripts {
+<script>
+    $(document).ready(function(){
+        var table = $("#movies").DataTable( {
+            ajax:{
+                url:"api/movies",
+                dataSrc:""
+            },
+            columns:[
+                {
+                    data:"name",
+                    render:function(data,type,movie){
+                        return "<a href='/movies/upsert/" + movie.id + "'>" + data + "</a>"
+                    }
+                },
+                {
+                    data:"overview"
+                },
+                {
+                    data:"imageUrl",
+                    render: function(data){
+                        return "<img src=" + data + " class='img-thumbnail' style='width:64px; height:84px;' />"
+                    },
+                },
+                {
+                    data:"genre.name"
+                },
+                {
+                    data:"inStock"
+                }
+            ]
+        });
+    });
+</script>
+}

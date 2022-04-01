@@ -81,7 +81,63 @@
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                    <button type="submit" class="btn btn-primary mb-3" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                                                        if (provider.Name == "Google")
+                                    {
+                                        <div class="col-md-7">
+                                            <button type="submit" class="btn btn-block btn-google" value="@provider.Name"
+                                        title="Register using your @provider.DisplayName account" name="provider">
+                                         
+                                                <i class="bi bi-google me-2"></i>Google
+                                            </button>
+                                        </div>
+                                    }
+                                    else if (provider.Name == "Facebook")
+                                    {
+                                        <div class="col-md-7">
+                                            <button class="btn-block btn btn-facebook" type="submit" value="@provider.Name"
+                                        title="Register using your @provider.DisplayName account" name="provider">
+
+                                                <i class="bi bi-meta me-2"></i>Facebook
+                                            </button>
+                                        </div>
+                                    }
+                                    else if (provider.Name == "Twitter")
+                                    {
+                                        <div class="col-md-7">
+                                            <button class="btn-block btn btn-twitter" type="submit" value="@provider.Name"
+                                        title="Register using your @provider.DisplayName account" name="provider">
+
+                                                <i class="bi bi-twitter me-2"></i>Twitter
+                                            </button>
+                                        </div>
+                                    }
+                                    else if (provider.Name == "Microsoft")
+                                    {
+                                        <div class="col-md-7">
+                                            <button class="btn-block btn btn-microsoft" type="submit" value="@provider.Name"
+                                        title="Register using your @provider.DisplayName account" name="provider">
+
+                                                <i class="bi bi-microsoft me-2"></i>Microsoft
+                                            </button>
+                                        </div>
+                                    }
+                                    else if (provider.Name == "Linkedin")
+                                    {
+                                        <div class="col-md-7">
+                                            <button class="btn-block btn btn-linkedin" type="submit" name="provider"
+                                        value="@provider.Name" title="Log in using your @provider.DisplayName account">
+
+                                                <i class="bi bi-linkedin me-2"></i>
+                                                Register using your @provider.Name
+
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Register your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
                                 }
                             </p>
                         </div>

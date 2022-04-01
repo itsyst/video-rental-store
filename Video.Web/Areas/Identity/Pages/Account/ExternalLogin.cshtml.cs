@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Video.Domain.Entities;
+using Video.Domain.Utilities;
 
 namespace Video.Web.Areas.Identity.Pages.Account;
 
@@ -78,8 +79,23 @@ public class ExternalLoginModel : PageModel
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [Required]
+        [MaxLength(55)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(55)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        [Required]
+        public string PhoneNumber { get; set; }
     }
     
     public IActionResult OnGet() => RedirectToPage("./Login");
@@ -151,14 +167,19 @@ public class ExternalLoginModel : PageModel
 
             await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.PhoneNumber = Input.PhoneNumber;
             var result = await _userManager.CreateAsync(user);
+
             if (result.Succeeded)
             {
                 result = await _userManager.AddLoginAsync(user, info);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                    await _userManager.AddToRoleAsync(user, Roles.Guest);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

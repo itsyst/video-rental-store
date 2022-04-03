@@ -1,28 +1,30 @@
-﻿@model IEnumerable<Video.Domain.Entities.Movie>
+﻿@using Video.Domain.Utilities
+@model IEnumerable<Video.Domain.Entities.Movie>
 
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="row pb-3">
-    @foreach (var movie in Model)
-    {
-        <div class="col-lg-2 col-md-6">
-            <div class="row p-2">
-                <div class="col-12 p-1">
-                    <div class="card shadow mb-5 bg-body rounded">
-                        <a asp-controller="Movies" asp-action="Upsert" class="btn-link" asp-route-id="@movie.Id">
-                            <img src="@movie.ImageUrl" class="d-block w-100 card-img-top rounded" alt="movie-@movie.Name"/>
-                        </a>
-                        <div class="card-body" style="height: 100px;">
-                            <div class="pl-1">
-                                <p class="card-title fs-6 fw-bold text-primary">@movie.Name</p>
-                                <p class="card-title badge bg-light p-2 text-dark"><small>@movie.Genre.Name</small></p>
-                             </div>
+<cache expires-after="@TimeSpan.FromSeconds(Caching.Seconds)">
+    <div class="row pb-3">
+        @foreach (var movie in Model)
+        {
+            <div class="col-lg-2 col-md-6">
+                <div class="row p-2">
+                    <div class="col-12 p-1">
+                        <div class="card shadow mb-5 bg-body rounded">
+                            <a asp-controller="Movies" asp-action="Upsert" class="btn-link" asp-route-id="@movie.Id">
+                                <img src="@movie.ImageUrl" class="d-block w-100 card-img-top rounded" alt="movie-@movie.Name" />
+                            </a>
+                            <div class="card-body" style="height: 100px;">
+                                <div class="pl-1">
+                                    <p class="card-title fs-6 fw-bold text-primary">@movie.Name</p>
+                                    <p class="card-title badge bg-light p-2 text-dark"><small>@movie.Genre.Name</small></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+</cache>

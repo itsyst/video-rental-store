@@ -23,6 +23,12 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+
+        var cachedMovies = _cache.Get("movies");
+
+        if (cachedMovies != null)
+            return View(cachedMovies);
+
         IEnumerable<Movie> movies = await _movie.GetAllMoviesAsync(includeProperties: m => m.Genre);
 
         var cacheKey = "movies";
@@ -35,9 +41,8 @@ public class HomeController : Controller
         };
 
         _cache.Set(cacheKey, movies, memoryCacheEntryOptions);
-        var cachedMovies = _cache.Get("movies");
 
-        return View(cachedMovies);
+        return View(movies);
     }
 
     public IActionResult Privacy()

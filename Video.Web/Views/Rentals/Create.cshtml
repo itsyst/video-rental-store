@@ -1,0 +1,66 @@
+﻿@model Video.Domain.Entities.Rental;
+
+@{
+    ViewData["Title"] = "Rentals";
+
+#pragma warning disable
+}
+<div class="d-flex justify-content-center p-3">
+    <div class="card col-md-9 p-3">
+        <div class="row pt-4 mb-3">
+            <h2 class="text-primary ml-3">New Rental</h2>
+        </div>
+        <div class="row">
+            <form method="post" asp-action="Create">
+                <div class="form-group mb-3">
+                    <label asp-for="Customer" class="control-label"></label>
+                    <input id="customer" asp-for="Customer" type="text" class="form-control" placeholder="" />
+                    <span asp-validation-for="Customer" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="Movie" class="control-label"></label>
+                    <input asp-for="Movie" type="text" class="form-control" placeholder="" />
+                    <span asp-validation-for="Movie" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3 row">
+                    <div class="col-10">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(function() {
+            var customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('firstName'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                prefetch: '/api/customers',
+                remote: {
+                    url: '/api/customers?query=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#customer').typeahead(
+                {
+                    hint: true,
+                    minLength: 3,
+                    highlight: true
+                },
+                {
+                    name: 'customers',
+                    display: 'firstName',
+                    source: customers
+                }
+            );
+        });
+    </script>
+}

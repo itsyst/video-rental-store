@@ -12,6 +12,7 @@ public class MappingProfile : Profile
         CreateMap<Genre, GenreDto>().ReverseMap();
         CreateMap<Movie, MovieDto>().ReverseMap();
         CreateMap<MembershipType, MembershipTypeDto>().ReverseMap();
+        CreateMap<Rental, RentalDto>().ReverseMap();
 
         // Domain to Dto
         //CreateMap<Movie, MovieDto>()

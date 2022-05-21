@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Video.Domain.Entities;
@@ -23,6 +22,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Customer>? Customers { get; set; }
     public DbSet<Movie>? Movies { get; set; }
     public DbSet<ApplicationUser>? Users { get; set; }
+    public DbSet<Rental>? Rentals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

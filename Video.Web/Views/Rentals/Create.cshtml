@@ -35,12 +35,12 @@
 
 @section Scripts {
     @{
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
     }
     <script>
         $(document).ready(function() {
             var customers = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('firstName'),
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace(['firstName','lastName']),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 prefetch: '/api/customers',
                 remote: {
@@ -57,7 +57,10 @@
                 },
                 {
                     name: 'customers',
-                    display: 'firstName',
+                    display: function(data) {
+                        return data.firstName + ' ' + data.lastName;
+                    },
+                    limit:10,
                     source: customers
                 }
             );

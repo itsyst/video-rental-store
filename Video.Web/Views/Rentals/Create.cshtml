@@ -14,14 +14,18 @@
             <form method="post" asp-action="Create">
                 <div class="form-group mb-3">
                     <label asp-for="Customer" class="control-label"></label>
-                    <input id="customer" asp-for="Customer" type="text" class="form-control" placeholder="" />
+                    <div class="tt-container">
+                        <input id="customer" asp-for="Customer" type="text" class="form-control" placeholder="" />
+                    </div>
                     <span asp-validation-for="Customer" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Movie" class="control-label"></label>
-                    <input asp-for="Movie" type="text" class="form-control" placeholder="" />
-                    <span asp-validation-for="Movie" class="text-danger"></span>
+                    <div class="tt-container">
+                        <input id="movie" asp-for="Movie" type="text" class="form-control" placeholder="" />
+                    </div>
                 </div>
+                <ol id="movies" class="list-group list-group-numbered mb-3"></ol>
 
                 <div class="form-group mt-3 row">
                     <div class="col-10">
@@ -35,14 +39,18 @@
 
 @section Scripts {
     @{
-    <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
     }
     <script>
         $(document).ready(function() {
+
+            var viewModel = {
+                Movies: []
+            };
+
             var customers = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace(['firstName','lastName']),
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace(['firstName', 'lastName']),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
-                prefetch: '/api/customers',
                 remote: {
                     url: '/api/customers?query=%QUERY',
                     wildcard: '%QUERY'
@@ -60,10 +68,45 @@
                     display: function(data) {
                         return data.firstName + ' ' + data.lastName;
                     },
-                    limit:10,
+                    limit: 10,
                     source: customers
+                }).on("typeahead:select", function(e, customer) {
+                    viewModel.Customer = customer;
+                });
+
+            var movies = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/api/movies?query=%QUERY',
+                    wildcard: '%QUERY'
                 }
-            );
+            });
+
+            $('#movie').typeahead(
+                {
+                    hint: true,
+                    minLength: 3,
+                    highlight: true
+                },
+                {
+                    name: 'movies',
+                    display: 'name',
+                    source: movies
+                }).on("typeahead:select", function(e, movie) {
+                    $('#movies').append(`
+                                                        <li class='list-group-item d-flex justify-content-between align-items-start'>
+                                                            <div class='ms-2 me-auto'>
+                                                                <div class='fw-bold'>${movie.name}</div>
+                                                                <small class='text-muted'>${movie.genre.name}</small>
+                                                            </div>
+                                                            <span class='badge bg-secondary rounded-pill'>${Date.parse((movie.releaseDate)).toString('MM-dd-yyyy')} </span>
+                                                        </li>`
+                    );
+                    $("#movie").typeahead("val", "");
+                    viewModel.Movies.push(movie);
+                    console.log(viewModel);
+                });
         });
     </script>
 }

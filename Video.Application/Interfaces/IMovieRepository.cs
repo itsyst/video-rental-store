@@ -5,5 +5,5 @@ namespace Video.Application.Interfaces;
 
 public interface IMovieRepository : IAsyncGenericRepository<Movie>
 {
-    Task<IEnumerable<Movie>> GetAllMoviesAsync(params Expression<Func<Movie, object>>[] includeProperties);
+    Task<IEnumerable<Movie>> GetAllMoviesAsync(Expression<Func<Movie, bool>>? filter = null, params Expression<Func<Movie, object>>[] includeProperties);
 }

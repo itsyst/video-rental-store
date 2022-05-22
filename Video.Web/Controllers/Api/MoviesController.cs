@@ -27,9 +27,9 @@ public class MoviesController : ControllerBase
     }
     // GET: api/<MoviesController>
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(string query = null)
     {
-        var movies = await _movie.GetAllMoviesAsync(includeProperties: m => m.Genre);
+        var movies = await _movie.GetAllMoviesAsync(filter: m => m.InStock >0 && m.Name.Contains(query), includeProperties: m => m.Genre);
 
         return Ok(movies.Select(_mapper.Map<Movie, MovieDto>));
     }

@@ -14,9 +14,15 @@ public class MovieService : BaseService<Movie>, IMovieRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Movie>> GetAllMoviesAsync(params Expression<Func<Movie, object>>[] includeProperties)
+    public async Task<IEnumerable<Movie>> GetAllMoviesAsync(Expression<Func<Movie, bool>>? filter = null, params Expression<Func<Movie, object>>[] includeProperties)
     {
         IQueryable<Movie> query = _table;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
         if (includeProperties != null)
         {
             foreach (var includeProp in includeProperties)

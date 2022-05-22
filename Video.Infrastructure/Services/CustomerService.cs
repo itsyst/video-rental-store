@@ -16,9 +16,15 @@ public class CustomerService : BaseService<Customer>, ICustomerRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Customer>> GetAllCustomersAsync(params Expression<Func<Customer, object>>[] includeProperties)
+    public async Task<IEnumerable<Customer>> GetAllCustomersAsync(Expression<Func<Customer, bool>>? filter = null, params Expression<Func<Customer, object>>[] includeProperties)
     {
         IQueryable<Customer> query = _table;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
         if (includeProperties != null)
         {
             foreach (var includeProp in includeProperties)

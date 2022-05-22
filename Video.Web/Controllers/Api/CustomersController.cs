@@ -24,9 +24,9 @@ public class CustomersController : ControllerBase
 
     // GET: api/customers
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(string query)
     {
-        var customers = await _customer.GetAllCustomersAsync(includeProperties: c => c.MembershipType!);
+        var customers = await _customer.GetAllCustomersAsync(filter: c => c.FirstName.Contains(query), includeProperties: c => c.MembershipType!);
 
         return Ok(customers.Select(_mapper.Map<Customer, CustomerDto>));
     }

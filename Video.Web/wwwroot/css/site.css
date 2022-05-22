@@ -143,10 +143,12 @@ body {
     font-size: 14px;
 }
 
+.tt-container {
+    position: relative;
+}
 
-#custom-templates .empty-message {
-    padding: 5px 10px;
-    text-align: center;
+.twitter-typeahead {
+    width: 100%;
 }
 
 /* Sticky footer styles

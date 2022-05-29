@@ -25,11 +25,15 @@ public class MoviesController : ControllerBase
         _hostEnvironment = hostEnvironment;
         _mapper = mapper;
     }
+
     // GET: api/<MoviesController>
     [HttpGet]
-    public async Task<IActionResult> Get(string query = null)
+    public async Task<IActionResult> Get(string? query)
     {
-        var movies = await _movie.GetAllMoviesAsync(filter: m => m.InStock >0 && m.Name.Contains(query), includeProperties: m => m.Genre);
+        var movies = await _movie.GetAllMoviesAsync(filter: m => m.InStock > 0, includeProperties: m => m.Genre);
+
+        if (query != null)
+            movies = await _movie.GetAllMoviesAsync(filter: m => m.InStock > 0 && m.Name.Contains(query), includeProperties: m => m.Genre);
 
         return Ok(movies.Select(_mapper.Map<Movie, MovieDto>));
     }

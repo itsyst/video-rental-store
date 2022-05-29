@@ -13,69 +13,85 @@ public class RentalsController : ControllerBase
     private readonly IRentalRepository _rental;
     private readonly ICustomerRepository _customer;
     private readonly IMovieRepository _movie;
-    private readonly IMapper _mapper;
     public RentalsController(
-        IRentalRepository rental,
-         IMapper mapper
+        ICustomerRepository customer,
+        IMovieRepository movie,
+        IRentalRepository rental
         )
     {
         _rental = rental;
-        _mapper = mapper;   
+        _customer = customer;
+        _movie = movie;
     }
 
-    // GET: api/<RentalsController>
+    // GET: api/<MoviesController>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var rentals = await _rental.GetAllRentalsAsync(r => r.Movie, r=>r.Customer);
-
-        return Ok(rentals.Select(_mapper.Map<Rental, RentalDto>));
-
-
-    }
-
-    // GET api/customers/5
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(int id)
-    {
-        var rentalInDb = await _rental.GetRentalByIdAsync(id);
-        if (rentalInDb == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(_mapper.Map<Rental, RentalDto>(rentalInDb));
+        var rentals = await _rental.GetAllRentalsAsync(filter: null, r => r.Customer, r => r.Movie);
+        return Ok(rentals);
     }
 
     // POST api/<RentalsController>
     [HttpPost]
-    public async Task<IActionResult> Post(RentalDto rentalDto)
+    public async Task<IActionResult> Post([FromBody] RentalDto rentalDto)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest();
-        }
+        var customerInDb = await _customer.GetCustomerByIdAsync(rentalDto.CustomerId);
+        var moviesInDb = await _movie.GetAllMoviesAsync(filter: m => rentalDto.MovieIds.Contains(m.Id), m=>m.Genre);
 
-        var customer = await _customer.GetCustomerByIdAsync(rentalDto.Customer!.Id);
+        var rentals = await _rental.GetAllRentalsAsync(filter:r=>r.Customer.Id == rentalDto.CustomerId, r=>r.Movie, r=>r.Customer);
 
-        var movies = await _movie.GetAllMoviesAsync(m=>m.Id == rentalDto.Movie.Id);
 
-        foreach (var movie in movies)
+ 
+        foreach (var movie in moviesInDb.ToList())
         {
             if (movie.InStock == 0)
                 return BadRequest("Movie is not available.");
 
+
+            foreach (var item in rentals.ToList())
+            {
+                if (movie.Name == item.Movie.Name)
+                {
+                    return BadRequest("You already rented this movie.");
+                }
+            }
+
             movie.InStock--;
+
+            await _movie.UpdateAsync(movie);
+            await _customer.UpdateAsync(customerInDb);
 
             var rental = new Rental
             {
-                Customer = customer,
+                Customer = customerInDb,
                 Movie = movie,
                 DateRented = DateTime.Now
             };
 
             await _rental.AddAsync(rental);
         }
-        return Ok();
+        return Ok(rentalDto);
+    }
+
+    // DELETE api/rentals/5
+    [HttpDelete("{id}")]
+     public async Task<IActionResult> Delete(int id)
+    {
+        Rental rentalInDb = await _rental.GetRentalByIdAsync(id, r => r.Customer, r => r.Movie);
+
+        if (rentalInDb == null)
+            return NotFound();
+
+        if (rentalInDb.DateReturned == null)
+             return BadRequest();
+
+        // We have to update the stock.
+        rentalInDb.Movie.InStock++;
+        await _movie.UpdateAsync(rentalInDb.Movie);
+
+        await _rental.DeleteRentalByIdAsync(rentalInDb.Id);
+
+        return NoContent();
     }
 }

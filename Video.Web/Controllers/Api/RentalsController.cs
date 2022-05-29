@@ -51,7 +51,7 @@ public class RentalsController : ControllerBase
 
             foreach (var item in rentals.ToList())
             {
-                if (movie.Name == item.Movie.Name)
+                if (movie.Name == item.Movie.Name && item.DateReturned == null)
                 {
                     return BadRequest("You already rented this movie.");
                 }
@@ -84,7 +84,7 @@ public class RentalsController : ControllerBase
             return NotFound();
 
         if (rentalInDb.DateReturned == null)
-             return BadRequest();
+             return BadRequest("Rental could not be deleted, please return videos!");
 
         // We have to update the stock.
         rentalInDb.Movie.InStock++;

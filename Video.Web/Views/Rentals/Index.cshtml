@@ -98,8 +98,16 @@
                                     table.row(button.parents("tr")).remove().draw();
                                     toastr.success("Rental deleted successfully");
                                 },
-                                error: function() {
-                                    toastr.error("Rental could not be deleted, please return videos!");
+                                error: function(xhr, ajaxOptions, thowError) {
+                                    if (xhr.status == 400) {
+                                        toastr.error(xhr.responseText, { timeOut: 20000 });
+                                    }
+                                    else if (xhr.status == 404) {
+                                        toastr.error("Not Found!",{ timeOut: 20000 });
+                                    }
+                                    else {
+                                        toastr.error("Something went wrong.", { timeOut: 20000 });
+                                    }
                                 }
                             });
                         }

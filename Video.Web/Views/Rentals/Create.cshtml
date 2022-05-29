@@ -38,7 +38,7 @@
 
 @section Scripts {
     @{
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
     }
     <script>
         $(document).ready(function() {
@@ -115,7 +115,7 @@
                 return viewModel.movieIds.length > 0;
             }, "Please select at least one movie");
 
-            $("#rental").validate({
+            var validator = $("#rental").validate({
                 submitHandler: function() {
                     $.ajax({
                         url: "/api/rentals",
@@ -125,8 +125,19 @@
                         data: JSON.stringify(viewModel),
                         success: function(data) {
                             if (data) {
-                                window.location.replace('/Rentals/Index');
                                 toastr.success("Rentals successfully created.", { timeOut: 20000 });
+
+                                $("#movie").typeahead("val", "");
+                                $("#customer").typeahead("val", "");
+                                $("#movies").empty();
+
+                                viewModel = {
+                                    movieIds: []
+                                };
+
+                                validator.resetForm();
+
+                                window.location.replace('/Rentals/Index');
                             }
                         },
                         error: function(xhr, ajaxOptions, thowError) {

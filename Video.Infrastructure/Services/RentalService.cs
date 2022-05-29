@@ -14,9 +14,14 @@ public class RentalService : BaseService<Rental>, IRentalRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Rental>> GetAllRentalsAsync(params Expression<Func<Rental, object>>[] includeProperties)
+    public async Task<IEnumerable<Rental>> GetAllRentalsAsync(Expression<Func<Rental, bool>>? filter = null, params Expression<Func<Rental, object>>[] includeProperties)
     {
         IQueryable<Rental> query = _table;
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
         if (includeProperties != null)
         {
             foreach (var includeProp in includeProperties)
@@ -28,9 +33,19 @@ public class RentalService : BaseService<Rental>, IRentalRepository
         return await query.ToListAsync();
     }
  
-    public async Task<Rental> GetRentalByIdAsync(int id)
+    public async Task<Rental> GetRentalByIdAsync(int id, params Expression<Func<Rental, object>>[] includeProperties)
     {
-        return await _table.FindAsync(id);
+        IQueryable<Rental> query = _table;
+
+        if (includeProperties != null)
+        {
+            foreach (var includeProp in includeProperties)
+            {
+                query = query.Include(includeProp);
+            }
+        }
+
+        return query.FirstOrDefault(r => r.Id == id);
     }
 
  

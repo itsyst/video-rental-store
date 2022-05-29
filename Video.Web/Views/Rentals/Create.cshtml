@@ -11,25 +11,24 @@
             <h2 class="text-primary ml-3">New Rental</h2>
         </div>
         <div class="row">
-            <form method="post" asp-action="Create">
+            <form id="rental">
                 <div class="form-group mb-3">
                     <label asp-for="Customer" class="control-label"></label>
                     <div class="tt-container">
-                        <input id="customer" asp-for="Customer" type="text" class="form-control" placeholder="" />
+                        <input id="customer" class="form-control" required data-rule-validCustomer="true" minlength="3" name="customer" type="text" value="" placeholder="..." />
                     </div>
-                    <span asp-validation-for="Customer" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
                     <label asp-for="Movie" class="control-label"></label>
                     <div class="tt-container">
-                        <input id="movie" asp-for="Movie" type="text" class="form-control" placeholder="" />
+                        <input id="movie" class="form-control" data-rule-validMovie="true" name="movie" type="text" value="" placeholder="..." />
                     </div>
                 </div>
                 <ol id="movies" class="list-group list-group-numbered mb-3"></ol>
 
                 <div class="form-group mt-3 row">
                     <div class="col-10">
-                        <input type="submit" value="Submit" class="btn btn-primary" />
+                        <button class="btn btn-primary">Submit</button>
                     </div>
                 </div>
             </form>
@@ -45,7 +44,7 @@
         $(document).ready(function() {
 
             var viewModel = {
-                Movies: []
+                movieIds: []
             };
 
             var customers = new Bloodhound({
@@ -71,7 +70,7 @@
                     limit: 10,
                     source: customers
                 }).on("typeahead:select", function(e, customer) {
-                    viewModel.Customer = customer;
+                    viewModel.customerId = customer.id;
                 });
 
             var movies = new Bloodhound({
@@ -95,18 +94,52 @@
                     source: movies
                 }).on("typeahead:select", function(e, movie) {
                     $('#movies').append(`
-                                                        <li class='list-group-item d-flex justify-content-between align-items-start'>
-                                                            <div class='ms-2 me-auto'>
-                                                                <div class='fw-bold'>${movie.name}</div>
-                                                                <small class='text-muted'>${movie.genre.name}</small>
-                                                            </div>
-                                                            <span class='badge bg-secondary rounded-pill'>${Date.parse((movie.releaseDate)).toString('MM-dd-yyyy')} </span>
-                                                        </li>`
+                                        <li class='list-group-item d-flex justify-content-between align-items-start'>
+                                            <div class='ms-2 me-auto'>
+                                                <div class='fw-bold'>${movie.name}</div>
+                                                <small class='text-muted'>${movie.genre.name}</small>
+                                            </div>
+                                            <span class='badge bg-secondary rounded-pill'>${Date.parse((movie.releaseDate)).toString('MM-dd-yyyy')} </span>
+                                        </li>`
                     );
+
                     $("#movie").typeahead("val", "");
-                    viewModel.Movies.push(movie);
-                    console.log(viewModel);
+                    viewModel.movieIds.push(movie.id);
                 });
+
+            $.validator.addMethod("validCustomer", function() {
+                return viewModel.customerId && viewModel.customerId != @Guid.Empty;
+            }, "Please add a valid customer");
+
+            $.validator.addMethod("validMovie", function() {
+                return viewModel.movieIds.length > 0;
+            }, "Please select at least one movie");
+
+            $("#rental").validate({
+                submitHandler: function() {
+                    $.ajax({
+                        url: "/api/rentals",
+                        type: "POST",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify(viewModel),
+                        success: function(data) {
+                            if (data) {
+                                window.location.replace('/Rentals/Index');
+                                toastr.success("Rentals successfully created.", { timeOut: 20000 });
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thowError) {
+                            if(xhr.status == 400 ){
+                                toastr.error(xhr.responseText, { timeOut: 20000 });
+                            }
+                            else {
+                             toastr.error("Something went wrong.", { timeOut: 20000 });
+                            }
+                        }
+                    })
+                }
+            });
         });
     </script>
 }

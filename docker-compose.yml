@@ -9,15 +9,14 @@ services:
    image: docker.io/videotek/videotek-mvc 
    container_name: videotek-mvc
    ports:
-     - "8080:6000"
+     - 8081:6000
    volumes:
-     - ./Video.Web/temp-keys:/root/.aspnet/DataProtection-Keys 
      - ./Video.Web/appsettings.json:/app/appsettings.json
   videotek-sql:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: videotek-sql
     ports: # not actually needed, because the two services are on the same network.
-      - "1433:1433" 
+      - 1433:1433 
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=A&VeryComplex123Password

@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as base
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as base
 WORKDIR /app
 EXPOSE 6000
 EXPOSE 443
 ENV ASPNETCORE_URLS=http://+:6000
 
 # Copy everything
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
 WORKDIR /src
 COPY  Video.Web/*.csproj  Video.Web/ 
 COPY  Video.Infrastructure/*.csproj  Video.Infrastructure/ 

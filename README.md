@@ -22,5 +22,6 @@ Build a complete e-commerce application ASP.NET Core  MVC  .NET 6
  <img src="https://github.com/itsyst/video-rental-store/blob/master/Video.Web/wwwroot/uploads/layout/tfa.png" alt="mfa-photo" border="0"> 
  <img src="https://github.com/itsyst/video-rental-store/blob/master/Video.Web/wwwroot/uploads/layout/movies-list.png" alt="list" border="0"> 
  <img src="https://github.com/itsyst/video-rental-store/blob/master/Video.Web/wwwroot/uploads/layout/update-customer.png" alt="customer" border="0"> 
-  <img src="https://github.com/itsyst/video-rental-store/blob/master/Video.Web/wwwroot/uploads/layout/update-movie.png" alt="list" border="0"> 
+ <img src="https://github.com/itsyst/video-rental-store/blob/master/Video.Web/wwwroot/uploads/layout/update-movie.png" alt="movie" border="0"> 
+ <img src="https://github.com/itsyst/video-rental-store/blob/master/Video.Web/wwwroot/uploads/layout/rentals.png" alt="rentals" border="0"> 
 </a>

@@ -9,7 +9,7 @@ services:
    image: docker.io/videotek/videotek-mvc 
    container_name: videotek-mvc
    ports:
-     - 8081:6000
+     - 8081:7000
    volumes:
      - ./Video.Web/appsettings.json:/app/appsettings.json
   videotek-sql:
@@ -20,7 +20,3 @@ services:
     environment:
       - ACCEPT_EULA=y
       - SA_PASSWORD=A&VeryComplex123Password
-  restart: unless-stopped
-  build:
-    context: .
-    dockerfile: Dockerfile

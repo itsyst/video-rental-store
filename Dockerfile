@@ -1,8 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as base
 WORKDIR /app
-EXPOSE 6000
+EXPOSE 7000
 EXPOSE 443
-ENV ASPNETCORE_URLS=http://+:6000
+ENV ASPNETCORE_URLS=http://+:7000
 
 # Copy everything
 FROM mcr.microsoft.com/dotnet/sdk:8.0 as build
@@ -29,4 +29,4 @@ RUN dotnet publish "Video.Web.csproj" -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Video.Web.dll", "--server.urls", "http://0.0.0.0:6000"]
+ENTRYPOINT ["dotnet", "Video.Web.dll", "--server.urls", "http://0.0.0.0:7000"]

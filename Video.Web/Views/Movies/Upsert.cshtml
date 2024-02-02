@@ -5,7 +5,7 @@
 	ViewData["Title"] = "Details";
 
 	var formwidth = (Model.Movie!.Id != 0 || Model.Movie == null) ? "col-8" : "col-12";
-	var groupwidth = (Model.Movie.Id != 0) ? "col-12 col-sm-10" : "col-12";
+	var groupwidth = (Model.Movie!.Id != 0) ? "col-12 col-sm-10" : "col-12";
 #pragma warning disable
 }
 <div class="d-flex justify-content-center p-3">
